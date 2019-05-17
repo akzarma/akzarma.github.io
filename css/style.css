@@ -38,6 +38,14 @@ body button:hover,
 html {
     scroll-behavior: smooth;
 }
+html, body{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+}
 
 body a:focus,
 a:hover {
@@ -116,14 +124,14 @@ a.move-top {
 
 /* banner */
 .banner-top1 {
-    background: url(../images/111.jpg) no-repeat top;
+    /*background: url(../images/111.jpg) no-repeat;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;
     background-size: cover;
+    margin-top: 80px;
     min-height: 800px;
-
     width: 100%;
     height: auto;
 
