@@ -1,109 +1,124 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
 <!DOCTYPE html>
-<html lang="zxx">
-
-<head>
+<html lang="en">
+  <head>
     <title>Akzarma</title>
-    <!-- Meta tag Keywords -->
-    <meta charset="UTF-8"/>
-    <meta name="keywords" content="Akzarma"/>
+    <meta charset="UTF-8" />
+    <meta
+      name="keywords"
+      content="Akzarma akshay kumar sharma akshay sharma developer jaipur pune rajasthan maharashtra akzarma akzarma@gmail.com akzarma1 akzarma2 web react reactjs dev web dev django python"
+    />
     <script>
-        addEventListener("load", function () {
-            setTimeout(hideURLbar, 0);
-        }, false);
+      addEventListener(
+        "load",
+        function() {
+          setTimeout(hideURLbar, 0);
+        },
+        false
+      );
 
-        function hideURLbar() {
-            window.scrollTo(0, 1);
+      function hideURLbar() {
+        window.scrollTo(0, 1);
+      }
+      function myFunction() {
+        var copyText = document.getElementById("contactLink");
+        var range = document.createRange();
+        range.selectNode(copyText);
+        window.getSelection().addRange(range);
+
+        try {
+          // Now that we've selected the anchor text, execute the copy command
+          var successful = document.execCommand("copy");
+          var msg = successful ? "successful" : "unsuccessful";
+          console.log("Copy email command was " + msg);
+        } catch (err) {
+          console.log("Oops, unable to copy");
         }
+
+        // Remove the selections - NOTE: Should use
+        // removeRange(range) when it is supported
+        window.getSelection().removeAllRanges();
+        // alert("Copied the text: " + copyText.innerHTML);
+      }
     </script>
-    <!--// Meta tag Keywords -->
-<meta name="theme-color" content="#000000" />
-    <!-- Custom-Files -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all"/>
-    <!-- Style-CSS -->
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <!-- Font-Awesome-Icons-CSS -->
-    <!-- //Custom-Files -->
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
 
-    <!-- Web-Fonts -->
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+  </head>
 
-    <!-- //Web-Fonts -->
-</head>
-
-<body>
-<!-- home -->
-<div id="wrapper">
-    <!-- banner -->
-    <div class="banner_w3lspvt">
+  <body>
+    <div id="wrapper">
+      <div class="banner_w3lspvt">
         <div class="banner-top1">
-            <div class="container">
-                <div class="banner-text text-center">
-                    <h1><a href="index.html" class="logo text-wh text-uppercase font-weight-light">Hi! I'm Akshay</a>
-                    </h1>
-                    <p class="text-bl text-li mt-3">I give solutions to technical problems</p>
-                    <a href = "mailto: contact@akzarma.me">contact@akzarma.me</a>
-                    <div class="social-icons mt-4">
-                        <ul class="list-unstyled">
-                            
-                            <li>
-                                <a href="https://github.com/akzarma">
-                                    <span class="fa fa-github"></span>
-                                </a>
-                            </li>
-                            
-                            <li>
-                                <a href="https://stackoverflow.com/users/7400627/akzarma">
-                                    <span class="fa fa-stack-overflow"></span>
-                                </a>
-                            </li>
+          <div class="container">
+            <div class="banner-text text-center">
+              <h1>
+                <a
+                  href="index.html"
+                  class="logo text-wh text-uppercase font-weight-light"
+                  >Hi! I'm Akshay</a
+                >
+              </h1>
+              <p class="text-bl text-li mt-3">
+                I give solutions to technical problems
+              </p>
+              <a
+                title="Click to copy"
+                id="contactLink"
+                onclick="myFunction()"
+                href="#"
+                >contact@akzarma.me</a
+              >
+              <div class="social-icons mt-4">
+                <ul class="list-unstyled">
+                  <li>
+                    <a href="https://github.com/akzarma">
+                      <span class="fa fa-github"></span>
+                    </a>
+                  </li>
 
-                            <li>
-                                <a href="https://linkedin.com/in/akzarma">
-                                    <span class="fa fa-linkedin-square"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://facebook.com/akzarma">
-                                    <span class="fa fa-facebook"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://instagram.com/akzarma">
-                                    <span class="fa fa-instagram"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://twitter.com/akzarma">
-                                    <span class="fa fa-twitter"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.snapchat.com/add/akzarma">
-                                    <span class="fa fa-snapchat-ghost"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!--<a href="#about" class="btn button-style mt-5">Read More</a>-->
-                </div>
+                  <li>
+                    <a href="https://stackoverflow.com/users/7400627/akzarma">
+                      <span class="fa fa-stack-overflow"></span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://linkedin.com/in/akzarma">
+                      <span class="fa fa-linkedin-square"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://facebook.com/akzarma">
+                      <span class="fa fa-facebook"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://instagram.com/akzarma">
+                      <span class="fa fa-instagram"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://twitter.com/akzarma">
+                      <span class="fa fa-twitter"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.snapchat.com/add/akzarma">
+                      <span class="fa fa-snapchat-ghost"></span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- //banner -->
-</div>
-<!-- //home -->
-
-
-</body>
-
+  </body>
 </html>
