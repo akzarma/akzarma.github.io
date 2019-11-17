@@ -131,6 +131,12 @@ a.logo {
     font-size: 52px;
     letter-spacing: 9px;
 }
+@media only screen and (max-width: 768px) {
+  a.logo {
+    font-size: 40px;
+	letter-spacing: 4px;
+  }	
+}
 
 .banner-text h3 {
     font-size: 58px;
