@@ -11,18 +11,10 @@
       "load",
       async function () {
         setTimeout(hideURLbar, 0);
-        const curTime = new Date().getTime();
-        const lastFetchTime = localStorage.getItem('lastFetchTime') || 0;
-        const lastSong = localStorage.getItem('lastSong');
-        if (curTime - lastFetchTime > 60000) {
-          localStorage.setItem('lastSong', '');
-          const res = await fetch('https://sheetdb.io/api/v1/4sdb0556xs9h1');
-          const data = await res.json();
-          const songName = data[0]['value']
-          localStorage.setItem('lastFetchTime', curTime);
-          localStorage.setItem('lastSong', songName);
-        }
-        document.getElementById('music').innerHTML = `♪ ${lastSong || 'Nothing'}`
+        const res = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1KI0ZcIYqOLsxh54HYFyOm8FyJskyCmcMJpojvFUcXRY/values/b2?key=%20AIzaSyDW-rYE1vkYaBwppN5fiwdyMhI0d-2u8_4');
+        const data = await res.json();
+        const songName = data['values'][0][0];
+        document.getElementById('music').innerHTML = `♪ ${songName || 'Nothing'}`
       },
       false
     );
