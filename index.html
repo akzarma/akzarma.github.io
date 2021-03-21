@@ -11,10 +11,16 @@
       "load",
       async function () {
         setTimeout(hideURLbar, 0);
-        const res = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1KI0ZcIYqOLsxh54HYFyOm8FyJskyCmcMJpojvFUcXRY/values/b2?key=%20AIzaSyDW-rYE1vkYaBwppN5fiwdyMhI0d-2u8_4');
+        const curTime = new Date().getTime();
+        const res = await fetch('https://sheets.googleapis.com/v4/spreadsheets/1KI0ZcIYqOLsxh54HYFyOm8FyJskyCmcMJpojvFUcXRY/values/b2:c2?key=%20AIzaSyDW-rYE1vkYaBwppN5fiwdyMhI0d-2u8_4');
         const data = await res.json();
         const songName = data['values'][0][0];
-        document.getElementById('music').innerHTML = `♪ ${songName || 'Nothing'}`
+        const timestamp = data['values'][0][1];
+        if (curTime - timestamp < 370000) {
+          document.getElementById('music').innerHTML = `♪ ${songName || 'Nothing'}`
+        } else {
+          document.getElementById('music').innerHTML = `☀ Nothing`
+        }
       },
       false
     );
