@@ -1,125 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Akzarma</title>
-    <meta charset="UTF-8" />
-    <meta
-      name="keywords"
-      content="Akzarma akshay kumar sharma akshay sharma developer jaipur pune rajasthan maharashtra akzarma akzarma@gmail.com akzarma1 akzarma2 web react reactjs dev web dev django python"
-    />
-    <script>
-      addEventListener(
-        "load",
-        function() {
-          setTimeout(hideURLbar, 0);
-        },
-        false
-      );
 
-      function hideURLbar() {
-        window.scrollTo(0, 1);
-      }
-      function myFunction() {
-        var copyText = document.getElementById("contactLink");
-        var range = document.createRange();
-        range.selectNode(copyText);
-        window.getSelection().addRange(range);
-
-        try {
-          // Now that we've selected the anchor text, execute the copy command
-          var successful = document.execCommand("copy");
-          var msg = successful ? "successful" : "unsuccessful";
-          console.log("Copy email command was " + msg);
-        } catch (err) {
-          console.log("Oops, unable to copy");
+<head>
+  <title>Akzarma</title>
+  <meta charset="UTF-8" />
+  <meta name="keywords"
+    content="Akzarma akshay kumar sharma akshay sharma developer jaipur pune rajasthan maharashtra akzarma akzarma@gmail.com akzarma1 akzarma2 web react reactjs dev web dev django python" />
+  <script>
+    addEventListener(
+      "load",
+      async function () {
+        setTimeout(hideURLbar, 0);
+        const curTime = new Date().getTime();
+        const lastFetchTime = localStorage.getItem('lastFetchTime') || 0;
+        const lastSong = localStorage.getItem('lastSong');
+        if (curTime - lastFetchTime > 60000) {
+          localStorage.setItem('lastSong', '');
+          const res = await fetch('https://sheetdb.io/api/v1/4sdb0556xs9h1');
+          const data = await res.json();
+          const songName = data[0]['value']
+          localStorage.setItem('lastFetchTime', curTime);
+          localStorage.setItem('lastSong', songName);
         }
+        document.getElementById('music').innerHTML = `♪ ${lastSong || 'Nothing'}`
+      },
+      false
+    );
 
-        // Remove the selections - NOTE: Should use
-        // removeRange(range) when it is supported
-        window.getSelection().removeAllRanges();
-        // alert("Copied the text: " + copyText.innerHTML);
+    function hideURLbar() {
+      window.scrollTo(0, 1);
+    }
+    function myFunction() {
+      var copyText = document.getElementById("contactLink");
+      var range = document.createRange();
+      range.selectNode(copyText);
+      window.getSelection().addRange(range);
+
+      try {
+        // Now that we've selected the anchor text, execute the copy command
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        console.log("Copy email command was " + msg);
+      } catch (err) {
+        console.log("Oops, unable to copy");
       }
-    </script>
-    <meta name="theme-color" content="#000000" />
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
-    />
-  </head>
+      // Remove the selections - NOTE: Should use
+      // removeRange(range) when it is supported
+      window.getSelection().removeAllRanges();
+      // alert("Copied the text: " + copyText.innerHTML);
+    }
+  </script>
+  <meta name="theme-color" content="#000000" />
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
 
-  <body>
-    <div id="wrapper">
-      <div class="banner_w3lspvt">
-        <div class="banner-top1">
-          <div class="container">
-            <div class="banner-text text-center">
-              <h1>
-                <a
-                  href="index.html"
-                  class="logo text-wh text-uppercase font-weight-light"
-                  >Hi! I'm Akshay</a
-                >
-              </h1>
-              <p class="text-bl text-li mt-3">
-                I give solutions to technical problems
-              </p>
-              <a
-                title="Click to copy"
-                id="contactLink"
-                onclick="myFunction()"
-                href="#"
-                >akzarma@gmail.com</a
-              >
-              <div class="social-icons mt-4">
-                <ul class="list-unstyled">
-                  <li>
-                    <a href="https://github.com/akzarma">
-                      <span class="fa fa-github"></span>
-                    </a>
-                  </li>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <style>
+    .sm {
+      font-size: smaller;
+    }
+  </style>
+</head>
 
-<!--                   <li>
+<body>
+  <div id="wrapper">
+    <div class="banner_w3lspvt">
+      <div class="banner-top1">
+        <div class="container">
+          <div class="banner-text text-center">
+            <h1>
+              <a href="index.html" class="logo text-wh text-uppercase font-weight-light">Hi! I'm Akshay</a>
+            </h1>
+            <p class="text-bl text-li mt-3">
+              I give solutions to technical problems
+            </p>
+            <a title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
+            <div class="social-icons mt-4">
+              <ul class="list-unstyled">
+                <li>
+                  <a href="https://github.com/akzarma">
+                    <span class="fa fa-github"></span>
+                  </a>
+                </li>
+
+                <!--                   <li>
                     <a href="https://stackoverflow.com/users/7400627/akzarma">
                       <span class="fa fa-stack-overflow"></span>
                     </a>
                   </li> -->
 
-                  <li>
-                    <a href="https://linkedin.com/in/akzarma">
-                      <span class="fa fa-linkedin-square"></span>
-                    </a>
-                  </li>
-<!--                   <li>
+                <li>
+                  <a href="https://linkedin.com/in/akzarma">
+                    <span class="fa fa-linkedin-square"></span>
+                  </a>
+                </li>
+                <!--                   <li>
                     <a href="https://facebook.com/akzarma">
                       <span class="fa fa-facebook"></span>
                     </a>
                   </li> -->
-                  <li>
-                    <a href="https://instagram.com/akzarma">
-                      <span class="fa fa-instagram"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://twitter.com/akzarma">
-                      <span class="fa fa-twitter"></span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.snapchat.com/add/akzarma">
-                      <span class="fa fa-snapchat-ghost"></span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <p class="text-bl text-li mt-3">Investigate 311</p>
+                <li>
+                  <a href="https://instagram.com/akzarma">
+                    <span class="fa fa-instagram"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://twitter.com/akzarma">
+                    <span class="fa fa-twitter"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.snapchat.com/add/akzarma">
+                    <span class="fa fa-snapchat-ghost"></span>
+                  </a>
+                </li>
+              </ul>
             </div>
+            <div class="sm text-li mt-3 text-muted">I'm currently listening to</div>
+            <div class="sm text-li mt-1 text-muted" id="music">♪ ...</div>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
