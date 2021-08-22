@@ -7,6 +7,21 @@
   <meta name="keywords"
     content="Akzarma akshay kumar sharma akshay sharma developer jaipur pune rajasthan maharashtra akzarma akzarma@gmail.com akzarma1 akzarma2 web react reactjs dev web dev django python" />
   <script>
+    function afterPageLoad() {
+      today = new Date()
+      const curHr = today.getHours()
+  
+      if (curHr < 18 && curHr > 7) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        const elems = document.getElementsByClassName('text-wh');
+        for(let i = 0; i<elems.length; i++) {
+          const element = elems[i];
+          element.style.color = 'black';
+        }
+      }  
+    } 
+
     addEventListener(
       "load",
       async function () {
@@ -62,7 +77,7 @@
   </style>
 </head>
 
-<body>
+<body onload="afterPageLoad();">
   <div id="wrapper">
     <div class="banner_w3lspvt">
       <div class="banner-top1">
@@ -71,15 +86,15 @@
             <h1>
               <a href="index.html" class="logo text-wh text-uppercase font-weight-light">Hi! I'm Akshay</a>
             </h1>
-            <p class="text-bl text-li mt-3">
+            <p class="text-bl text-wh text-li mt-3">
               I give solutions to technical problems
             </p>
-            <a title="Click to copy" id="contactLink" onclick="myFunction()" href="#">contact@akzarma.me</a>
+            <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">contact@akzarma.me</a>
             <div class="social-icons mt-4">
               <ul class="list-unstyled">
                 <li>
                   <a href="https://github.com/akzarma">
-                    <span class="fa fa-github"></span>
+                    <span class="fa fa-github text-wh"></span>
                   </a>
                 </li>
 
@@ -91,27 +106,27 @@
 
                 <li>
                   <a href="https://linkedin.com/in/akzarma">
-                    <span class="fa fa-linkedin-square"></span>
+                    <span class="text-wh fa fa-linkedin-square"></span>
                   </a>
                 </li>
                 <!--                   <li>
                     <a href="https://facebook.com/akzarma">
-                      <span class="fa fa-facebook"></span>
+                      <span class="text-wh fa fa-facebook"></span>
                     </a>
                   </li> -->
                 <li>
                   <a href="https://instagram.com/akzarma">
-                    <span class="fa fa-instagram"></span>
+                    <span class="text-wh fa fa-instagram"></span>
                   </a>
                 </li>
                 <li>
                   <a href="https://twitter.com/akzarma">
-                    <span class="fa fa-twitter"></span>
+                    <span class="text-wh fa fa-twitter"></span>
                   </a>
                 </li>
                 <li>
                   <a href="https://www.snapchat.com/add/akzarma">
-                    <span class="fa fa-snapchat-ghost"></span>
+                    <span class="text-wh fa fa-snapchat-ghost"></span>
                   </a>
                 </li>
               </ul>
