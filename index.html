@@ -31,7 +31,7 @@
         const data = await res.json();
         const songName = data['values'][0][0];
         const timestamp = data['values'][0][1];
-        if (curTime - timestamp < 370000) {
+        if (curTime - timestamp < 600000) {
           document.getElementById('music').innerHTML = `♪ ${songName || 'Nothing'}`
         } else {
           document.getElementById('music').innerHTML = `☀ Nothing`
@@ -89,7 +89,7 @@
             <p class="text-bl text-wh text-li mt-3">
               I give solutions to technical problems
             </p>
-            <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">contact@akzarma.me</a>
+            <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
             <div class="social-icons mt-4">
               <ul class="list-unstyled">
                 <li>
@@ -114,11 +114,11 @@
                       <span class="text-wh fa fa-facebook"></span>
                     </a>
                   </li> -->
-                <li>
+<!--                 <li>
                   <a href="https://instagram.com/akzarma">
                     <span class="text-wh fa fa-instagram"></span>
                   </a>
-                </li>
+                </li> -->
                 <li>
                   <a href="https://twitter.com/akzarma">
                     <span class="text-wh fa fa-twitter"></span>
