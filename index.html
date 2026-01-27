@@ -177,11 +177,10 @@
 
     /* Photo gallery - scattered memories */
     .memory-photos {
-      position: absolute;
-      top: 40px;
-      left: 0;
-      display: flex;
-      gap: 6px;
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
       z-index: 10;
     }
     .memory-thumb {
@@ -192,13 +191,12 @@
       cursor: pointer;
       transition: all 0.3s ease;
       border: 1px solid rgba(255,255,255,0.3);
-      opacity: 0.75;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .memory-thumb:hover {
       transform: scale(1.3) rotate(-3deg);
-      opacity: 1;
       z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
     .memory-thumb:nth-child(1) { transform: rotate(-5deg); }
     .memory-thumb:nth-child(2) { transform: rotate(4deg); margin-top: 3px; }
@@ -267,7 +265,18 @@
       to { opacity: 1; }
     }
     @media (max-width: 768px) {
-      .memory-photos { display: none; }
+      .memory-photos {
+        display: inline-flex;
+      }
+      .memory-thumb {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .memory-photos {
+        display: none;
+      }
     }
 
     #wrapper {
@@ -370,14 +379,21 @@
       right: 10%;
       left: auto;
     }
+    .annotation-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
     .annotation-text {
-      display: block;
       font-style: italic;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
     .annotation-feb svg, .annotation-ai svg {
       display: block;
-      margin: 0 auto;
+    }
+    .annotation-feb svg {
+      margin-left: 60px;
     }
     @media (max-width: 768px) {
       .graph-annotation {
@@ -455,17 +471,19 @@
                 <div class="graph-container">
                   <!-- Feb annotation - trip -->
                   <div class="graph-annotation annotation-feb">
-                    <span class="annotation-text">having the time of my life!</span>
-                    <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M25 5 Q 20 15, 25 30" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                      <path d="M20 25 L 25 32 L 30 25" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <!-- Scattered memory photos -->
-                    <div class="memory-photos">
-                      <img src="https://picsum.photos/seed/india1/100/100" alt="Memory 1" class="memory-thumb" onclick="openLightbox(0)" />
-                      <img src="https://picsum.photos/seed/india2/100/100" alt="Memory 2" class="memory-thumb" onclick="openLightbox(1)" />
-                      <img src="https://picsum.photos/seed/india3/100/100" alt="Memory 3" class="memory-thumb" onclick="openLightbox(2)" />
+                    <div class="annotation-row">
+                      <span class="annotation-text">having the time of my life!</span>
+                      <!-- Scattered memory photos -->
+                      <div class="memory-photos">
+                        <img src="images/travel-1.jpg" alt="Canyon overlook" class="memory-thumb" onclick="openLightbox(0)" />
+                        <img src="images/travel-4.jpg" alt="Exploring old ruins" class="memory-thumb" onclick="openLightbox(1)" />
+                        <img src="images/travel-3.jpg" alt="With monks in Sikkim" class="memory-thumb" onclick="openLightbox(2)" />
+                      </div>
                     </div>
+                    <svg width="50" height="30" viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top: 2px;">
+                      <path d="M25 2 Q 22 12, 25 25" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                      <path d="M20 20 L 25 27 L 30 20" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </div>
                   <!-- May-Dec annotation - AI excitement -->
                   <div class="graph-annotation annotation-ai">
@@ -545,9 +563,12 @@
 
   <script>
     const memoryPhotos = [
-      { src: 'https://picsum.photos/seed/india1/800/600', caption: 'Exploring new places' },
-      { src: 'https://picsum.photos/seed/india2/800/600', caption: 'Making memories' },
-      { src: 'https://picsum.photos/seed/india3/800/600', caption: 'Living the moment' }
+      { src: 'images/travel-1.jpg', caption: 'Taking in the views' },
+      { src: 'images/travel-4.jpg', caption: 'Exploring ancient ruins' },
+      { src: 'images/travel-3.jpg', caption: 'Making friends in Sikkim' },
+      { src: 'images/travel-5.jpg', caption: 'Desert adventures' },
+      { src: 'images/travel-6.jpg', caption: 'Yosemite vibes' },
+      { src: 'images/travel-7.jpg', caption: 'Skydiving!' }
     ];
     let currentPhotoIndex = 0;
 
