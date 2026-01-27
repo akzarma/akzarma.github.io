@@ -160,6 +160,20 @@
     .banner-text {
       padding-top: 0 !important;
     }
+    .github-graph {
+      margin-top: 1.5rem;
+      opacity: 0.85;
+    }
+    .github-graph img {
+      max-width: 100%;
+      height: auto;
+      filter: invert(1) hue-rotate(180deg);
+    }
+    @media (max-width: 480px) {
+      .github-graph img {
+        max-width: 90vw;
+      }
+    }
   </style>
 </head>
 
@@ -189,6 +203,11 @@
                 </div>
               </div>
               <div class="sm text-muted mt-2" style="opacity: 0.5;">since 2014</div>
+              <div class="github-graph">
+                <a href="https://github.com/akzarma" target="_blank">
+                  <img src="https://ghchart.rshah.org/akzarma" alt="GitHub Contribution Graph" />
+                </a>
+              </div>
             </div>
 
             <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
