@@ -43,6 +43,36 @@
     function hideURLbar() {
       window.scrollTo(0, 1);
     }
+
+    function animateCounter(element, target, duration = 2000) {
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing function (ease-out cubic)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * easeOut);
+
+        element.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function startCounters() {
+      const workCounter = document.getElementById('work-counter');
+      const personalCounter = document.getElementById('personal-counter');
+
+      animateCounter(workCounter, 906891, 2000);
+      animateCounter(personalCounter, 625356, 2000);
+    }
     function myFunction() {
       var copyText = document.getElementById("contactLink");
       var range = document.createRange();
@@ -74,10 +104,66 @@
     .sm {
       font-size: smaller;
     }
+    .stats-section {
+      margin-top: 2rem;
+      padding: 1.5rem 0;
+    }
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 300;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.2);
+      align-self: stretch;
+    }
+    @media (max-width: 480px) {
+      .stats-container {
+        gap: 1.5rem;
+      }
+      .stat-number {
+        font-size: 1.4rem;
+      }
+      .stat-divider {
+        display: none;
+      }
+    }
+    /* Perfect centering */
+    #wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-top1 {
+      margin-top: 0 !important;
+      min-height: auto !important;
+    }
+    .banner-text {
+      padding-top: 0 !important;
+    }
   </style>
 </head>
 
-<body onload="afterPageLoad();">
+<body onload="afterPageLoad(); startCounters();">
   <div id="wrapper">
     <div class="banner_w3lspvt">
       <div class="banner-top1">
@@ -89,6 +175,22 @@
             <p class="text-bl text-wh text-li mt-3">
               I give solutions to technical problems
             </p>
+
+            <div class="stats-section">
+              <div class="stats-container">
+                <div class="stat-item">
+                  <div class="stat-number text-wh" id="work-counter">0</div>
+                  <div class="stat-label text-wh">lines @ work</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                  <div class="stat-number text-wh" id="personal-counter">0</div>
+                  <div class="stat-label text-wh">lines personal</div>
+                </div>
+              </div>
+              <div class="sm text-muted mt-2" style="opacity: 0.5;">since 2014</div>
+            </div>
+
             <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
             <div class="social-icons mt-4">
               <ul class="list-unstyled">
@@ -120,8 +222,10 @@
                   </a>
                 </li> -->
                 <li>
-                  <a href="https://twitter.com/akzarma">
-                    <span class="text-wh fa fa-x-twitter"></span>
+                  <a href="https://x.com/akzarma">
+                    <svg class="text-wh" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: baseline; position: relative; top: 1px; margin: 0 10px;">
+                      <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                    </svg>
                   </a>
                 </li>
                 <li>
