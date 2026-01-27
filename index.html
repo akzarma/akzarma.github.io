@@ -10,16 +10,20 @@
     function afterPageLoad() {
       today = new Date()
       const curHr = today.getHours()
-  
+
       if (curHr < 18 && curHr > 7) {
         document.getElementsByTagName('html')[0].style.background = 'white';
         document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
         const elems = document.getElementsByClassName('text-wh');
         for(let i = 0; i<elems.length; i++) {
           const element = elems[i];
           element.style.color = 'black';
         }
-      }  
+        // Update corner accents for light mode
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
     } 
 
     addEventListener(
@@ -95,12 +99,93 @@
     }
   </script>
   <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap.css" />
   <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <style>
+    /* Modern fonts */
+    body, h1, h2, h3, p {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+    .annotation-text {
+      font-family: 'Caveat', cursive !important;
+      font-size: 14px !important;
+    }
+    a.logo {
+      font-family: 'Space Grotesk', sans-serif !important;
+      font-weight: 300 !important;
+    }
+
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.1; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.3; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.2; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.25; }
+    }
+
+    /* Decorative corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left {
+      top: 20px;
+      left: 20px;
+    }
+    .corner-accent.bottom-right {
+      bottom: 20px;
+      right: 20px;
+      transform: rotate(180deg);
+    }
+
+    /* Light mode adjustments */
+    .light-mode .particle {
+      background: rgba(0,0,0,0.08);
+    }
+    .light-mode .corner-accent path {
+      stroke: rgba(0,0,0,0.15);
+    }
+
+    #wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
     .sm {
       font-size: smaller;
     }
@@ -225,6 +310,28 @@
 </head>
 
 <body onload="afterPageLoad(); startCounters();">
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
   <div id="wrapper">
     <div class="banner_w3lspvt">
       <div class="banner-top1">
