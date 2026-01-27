@@ -169,9 +169,56 @@
       height: auto;
       filter: invert(1) hue-rotate(180deg);
     }
+    .graph-container {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .graph-annotation {
+      position: absolute;
+      pointer-events: none;
+      font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+      font-size: 10px;
+      color: rgba(255,255,255,0.7);
+      white-space: nowrap;
+    }
+    .annotation-feb {
+      top: -45px;
+      left: 3%;
+    }
+    .annotation-ai {
+      top: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .annotation-text {
+      display: block;
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+    .annotation-feb svg, .annotation-ai svg {
+      display: block;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .graph-annotation {
+        font-size: 8px;
+      }
+      .annotation-feb {
+        left: 2%;
+        top: -40px;
+      }
+      .annotation-ai {
+        right: 5%;
+        top: -40px;
+      }
+    }
     @media (max-width: 480px) {
       .github-graph img {
         max-width: 90vw;
+      }
+      .graph-annotation {
+        display: none;
       }
     }
   </style>
@@ -204,9 +251,28 @@
               </div>
               <div class="sm text-muted mt-2" style="opacity: 0.5;">since 2014</div>
               <div class="github-graph">
-                <a href="https://github.com/akzarma" target="_blank">
-                  <img src="https://ghchart.rshah.org/akzarma" alt="GitHub Contribution Graph" />
-                </a>
+                <div class="graph-container">
+                  <!-- Feb annotation - trip -->
+                  <div class="graph-annotation annotation-feb">
+                    <span class="annotation-text">was mass-exploring India</span>
+                    <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M25 5 Q 20 15, 25 30" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                      <path d="M20 25 L 25 32 L 30 25" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <!-- May-Dec annotation - AI excitement -->
+                  <div class="graph-annotation annotation-ai">
+                    <span class="annotation-text">AI agents + new models got me hyped!</span>
+                    <svg width="180" height="35" viewBox="0 0 180 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 30 Q 30 10, 60 15 Q 90 20, 120 12 Q 150 5, 160 30" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                      <path d="M15 25 L 20 32 L 27 27" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M155 25 L 160 32 L 165 25" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <a href="https://github.com/akzarma" target="_blank">
+                    <img src="https://ghchart.rshah.org/akzarma" alt="GitHub Contribution Graph" />
+                  </a>
+                </div>
               </div>
             </div>
 
