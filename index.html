@@ -275,7 +275,13 @@
     }
     @media (max-width: 480px) {
       .memory-photos {
-        display: none;
+        display: inline-flex;
+        gap: 3px;
+        margin-left: 5px;
+      }
+      .memory-thumb {
+        width: 16px;
+        height: 16px;
       }
     }
 
@@ -413,7 +419,21 @@
         max-width: 90vw;
       }
       .graph-annotation {
+        font-size: 7px;
+        top: -35px;
+      }
+      .annotation-feb {
+        left: 0;
+      }
+      .annotation-ai {
+        right: 0;
         display: none;
+      }
+      .annotation-feb svg {
+        display: none;
+      }
+      .annotation-row {
+        gap: 4px;
       }
     }
   </style>
