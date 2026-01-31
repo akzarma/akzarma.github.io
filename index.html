@@ -270,6 +270,45 @@
     .light-mode .github-graph img {
       filter: none;
     }
+    .light-mode .graph-annotation {
+      color: rgba(0,0,0,0.7);
+    }
+    .light-mode .graph-annotation svg path {
+      stroke: rgba(0,0,0,0.5);
+    }
+    .light-mode .scroll-indicator {
+      color: rgba(0,0,0,0.5);
+    }
+    .light-mode .scroll-indicator:hover {
+      color: rgba(0,0,0,0.8);
+    }
+    .light-mode .projects-subtitle {
+      color: rgba(0,0,0,0.5);
+    }
+    .light-mode .project-card {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.08);
+    }
+    .light-mode .project-card:hover {
+      background: rgba(0,0,0,0.06);
+      border-color: rgba(0,0,0,0.15);
+    }
+    .light-mode .project-tagline {
+      color: rgba(0,0,0,0.7);
+    }
+    .light-mode .project-desc {
+      color: rgba(0,0,0,0.5);
+    }
+    .light-mode .project-tag {
+      background: rgba(0,0,0,0.06);
+      color: rgba(0,0,0,0.6);
+    }
+    .light-mode .project-link {
+      color: rgba(0,0,0,0.7);
+    }
+    .light-mode .project-link:hover {
+      color: #000;
+    }
 
     /* Photo gallery - scattered memories */
     .memory-photos {
@@ -450,10 +489,12 @@
       padding-top: 0 !important;
     }
     
-    /* Ensure body can scroll */
-    body {
+    /* Ensure body can scroll - override external CSS */
+    html, body {
+      position: relative !important;
       overflow-y: auto !important;
       overflow-x: hidden;
+      height: auto !important;
     }
     .github-graph {
       margin-top: 1.5rem;
