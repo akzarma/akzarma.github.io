@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Projects | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="My Projects | Akshay" />
+  <meta property="og:description" content="AI-powered trading bots, email intelligence systems, and privacy-first communication platforms." />
+  <meta property="og:image" content="https://akzarma.github.io/images/github-graph-og.png?v=2" />
+  <meta property="og:url" content="https://akzarma.github.io/projects" />
+  <meta property="og:type" content="website" />
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '←';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .page-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    /* Projects grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    /* Project card */
+    .project-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 35px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.05);
+    }
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Featured card (StockGPT) */
+    .project-card.featured {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .project-card.featured .project-icon {
+      width: 70px;
+      height: 70px;
+      font-size: 32px;
+    }
+    .project-card.featured .project-title {
+      font-size: 2.2rem;
+    }
+
+    /* Project number */
+    .project-number {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.2);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+    }
+
+    /* Project icon */
+    .project-icon {
+      width: 55px;
+      height: 55px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+    }
+    .project-card:hover .project-icon {
+      background: rgba(255,255,255,0.12);
+      transform: scale(1.1);
+    }
+    .project-icon.chart { background: rgba(34, 197, 94, 0.15); }
+    .project-icon.mail { background: rgba(59, 130, 246, 0.15); }
+    .project-icon.qr { background: rgba(168, 85, 247, 0.15); }
+
+    /* Project content */
+    .project-title {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .project-tagline {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .project-description {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    /* Tech tags */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 25px;
+    }
+    .tech-tag {
+      font-size: 0.75rem;
+      padding: 5px 12px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Project links */
+    .project-links {
+      display: flex;
+      gap: 15px;
+    }
+    .project-link {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      padding: 8px 0;
+    }
+    .project-link:hover {
+      color: #fff;
+      gap: 10px;
+    }
+    .project-link::after {
+      content: '→';
+      transition: transform 0.3s ease;
+    }
+    .project-link:hover::after {
+      transform: translateX(4px);
+    }
+
+    /* Stats section */
+    .project-stats {
+      display: flex;
+      gap: 25px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .project-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .project-stat-value {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+    }
+    .project-stat-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .page-title { font-size: 2.2rem; }
+      .projects-grid { grid-template-columns: 1fr; gap: 20px; }
+      .project-card { padding: 25px; }
+      .project-card.featured { grid-column: 1; }
+      .project-card.featured .project-title { font-size: 1.6rem; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-subtitle">THINGS I'VE BUILT</p>
+    </header>
+
+    <div class="projects-grid">
+      <!-- StockGPT - Featured -->
+      <article class="project-card featured" onclick="window.open('https://github.com/akzarma/StockGPT', '_blank')">
+        <span class="project-number">01</span>
+        <div class="project-icon chart">📈</div>
+        <h2 class="project-title">StockGPT</h2>
+        <p class="project-tagline">"An AI trader that actually reads the market"</p>
+        <p class="project-description">
+          An intelligent stock trading system powered by AI. Features backtesting engine, live trading with broker integration (Shoonya), real-time analysis, and a beautiful dashboard. The bot analyzes market patterns, executes trades automatically, and generates detailed performance reports.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Trading Bot</span>
+          <span class="tech-tag">AI/ML</span>
+          <span class="tech-tag">Supabase</span>
+          <span class="tech-tag">FastAPI</span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <span class="project-stat-value">Live</span>
+            <span class="project-stat-label">Trading</span>
+          </div>
+          <div class="project-stat">
+            <span class="project-stat-value">Multi</span>
+            <span class="project-stat-label">Brokers</span>
+          </div>
+          <div class="project-stat">
+            <span class="project-stat-value">Auto</span>
+            <span class="project-stat-label">Execution</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/akzarma/StockGPT" class="project-link" target="_blank" onclick="event.stopPropagation()">View on GitHub</a>
+        </div>
+      </article>
+
+      <!-- Inbox-AI -->
+      <article class="project-card" onclick="window.open('https://github.com/akzarma/Inbox-AI', '_blank')">
+        <span class="project-number">02</span>
+        <div class="project-icon mail">✉️</div>
+        <h2 class="project-title">Inbox AI</h2>
+        <p class="project-tagline">"Your emails, but actually useful"</p>
+        <p class="project-description">
+          AI-powered email intelligence system. Upload your Gmail export and ask questions like "How much did I spend on flights in 2024?" Automatically categorizes emails, extracts structured data (bookings, transactions, reservations), and surfaces insights through natural language queries.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">LLM</span>
+          <span class="tech-tag">Claude</span>
+          <span class="tech-tag">GPT-4</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">NLP</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/akzarma/Inbox-AI" class="project-link" target="_blank" onclick="event.stopPropagation()">View on GitHub</a>
+        </div>
+      </article>
+
+      <!-- Hello Tag -->
+      <article class="project-card" onclick="window.open('https://github.com/akzarma/hello-tag', '_blank')">
+        <span class="project-number">03</span>
+        <div class="project-icon qr">🏷️</div>
+        <h2 class="project-title">Hello Tag</h2>
+        <p class="project-tagline">"Talk to strangers without giving your number"</p>
+        <p class="project-description">
+          Privacy-first vehicle communication platform. Owners get QR codes for their vehicles; strangers scan to send messages or urgent alerts without exposing phone numbers. Features real-time chat, push notifications, and a companion mobile app for vehicle owners.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">React Native</span>
+          <span class="tech-tag">Expo</span>
+          <span class="tech-tag">Supabase</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">QR Codes</span>
+          <span class="tech-tag">Privacy</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/akzarma/hello-tag" class="project-link" target="_blank" onclick="event.stopPropagation()">View on GitHub</a>
+        </div>
+      </article>
+    </div>
+
+    <footer class="page-footer">
+      <p class="footer-text">
+        Interested in collaborating? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Light mode detection
+    function afterPageLoad() {
+      today = new Date()
+      const curHr = today.getHours()
+
+      if (curHr < 18 && curHr > 7) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+        // Update text colors for light mode
+        document.querySelectorAll('.page-title, .project-title').forEach(el => {
+          el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+          el.style.webkitBackgroundClip = 'text';
+          el.style.webkitTextFillColor = 'transparent';
+        });
+        document.querySelectorAll('.project-description, .project-tagline').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+        });
+        document.querySelectorAll('.tech-tag').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.06)';
+          el.style.color = 'rgba(0,0,0,0.6)';
+          el.style.borderColor = 'rgba(0,0,0,0.1)';
+        });
+        document.querySelectorAll('.project-card').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.03)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelector('.page-subtitle').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+</body>
+
+</html>
