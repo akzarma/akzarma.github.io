@@ -594,7 +594,7 @@
     /* Scroll indicator - subtle and always visible */
     .scroll-indicator {
       position: fixed;
-      bottom: 20px;
+      bottom: 25px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -602,23 +602,23 @@
       justify-content: center;
       cursor: pointer;
       z-index: 50;
-      opacity: 0.3;
+      color: rgba(255,255,255,0.5);
       transition: opacity 0.3s ease;
     }
     .scroll-indicator:hover {
-      opacity: 0.6;
+      color: rgba(255,255,255,0.8);
     }
     .scroll-arrow {
-      width: 12px;
-      height: 12px;
-      border-right: 1.5px solid currentColor;
-      border-bottom: 1.5px solid currentColor;
+      width: 16px;
+      height: 16px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
       transform: rotate(45deg);
       animation: breathe 2s ease-in-out infinite;
     }
     @keyframes breathe {
-      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.3; }
-      50% { transform: rotate(45deg) translateY(4px); opacity: 0.6; }
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(5px); }
     }
 
     /* Projects section */
@@ -753,19 +753,48 @@
       .github-graph img {
         max-width: 90vw;
       }
+      .graph-container {
+        padding-bottom: 30px;
+      }
       .graph-annotation {
-        font-size: 7px;
-        top: -35px;
+        font-size: 8px;
       }
       .annotation-feb {
         left: 0;
-      }
-      .annotation-ai {
-        right: 0;
-        display: none;
+        top: -40px;
       }
       .annotation-feb svg {
-        display: none;
+        display: block;
+        width: 30px;
+        height: 20px;
+        margin-left: 40px;
+      }
+      .annotation-ai {
+        top: auto;
+        bottom: -28px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .annotation-ai svg {
+        display: none !important;
+      }
+      .annotation-ai::before {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 8px solid rgba(255,255,255,0.5);
+        margin-bottom: 4px;
+      }
+      .light-mode .annotation-ai::before {
+        border-bottom-color: rgba(0,0,0,0.5);
       }
       .annotation-row {
         gap: 4px;
@@ -1041,6 +1070,22 @@
     // Scroll indicator click to scroll to projects
     document.querySelector('.scroll-indicator').addEventListener('click', () => {
       document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
+    });
+
+    // Hide scroll indicator when near projects section
+    window.addEventListener('scroll', () => {
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      const projectsSection = document.getElementById('projects');
+      const projectsTop = projectsSection.getBoundingClientRect().top;
+      const threshold = window.innerHeight * 0.5;
+
+      if (projectsTop < threshold) {
+        scrollIndicator.style.opacity = '0';
+        scrollIndicator.style.pointerEvents = 'none';
+      } else {
+        scrollIndicator.style.opacity = '';
+        scrollIndicator.style.pointerEvents = '';
+      }
     });
   </script>
 </body>
