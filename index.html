@@ -310,6 +310,36 @@
       color: #000;
     }
 
+    /* Email link styling */
+    #contactLink {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #contactLink:hover {
+      color: rgba(255,255,255,0.8);
+    }
+    .copy-icon {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    #contactLink:hover .copy-icon {
+      opacity: 1;
+    }
+    .light-mode #contactLink {
+      color: rgba(0,0,0,0.5);
+    }
+    .light-mode #contactLink:hover {
+      color: rgba(0,0,0,0.8);
+    }
+
     /* Photo gallery - scattered memories */
     .memory-photos {
       display: inline-flex;
@@ -496,6 +526,18 @@
       overflow-x: hidden;
       height: auto !important;
     }
+    
+    /* Hide scrollbars on all browsers */
+    html {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+    }
+    html::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
     .github-graph {
       margin-top: 1.5rem;
       opacity: 0.85;
@@ -549,42 +591,34 @@
       margin-left: 60px;
     }
 
-    /* Scroll indicator */
+    /* Scroll indicator - subtle and always visible */
     .scroll-indicator {
       position: fixed;
-      bottom: 30px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      animation: breathe 2s ease-in-out infinite;
+      justify-content: center;
       cursor: pointer;
       z-index: 50;
+      opacity: 0.3;
       transition: opacity 0.3s ease;
     }
     .scroll-indicator:hover {
-      color: rgba(255,255,255,0.8);
-    }
-    .scroll-indicator.hidden {
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0.6;
     }
     .scroll-arrow {
-      width: 24px;
-      height: 24px;
-      border-right: 2px solid currentColor;
-      border-bottom: 2px solid currentColor;
+      width: 12px;
+      height: 12px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
       transform: rotate(45deg);
+      animation: breathe 2s ease-in-out infinite;
     }
     @keyframes breathe {
-      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
-      50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.3; }
+      50% { transform: rotate(45deg) translateY(4px); opacity: 0.6; }
     }
 
     /* Projects section */
@@ -832,11 +866,14 @@
               </div>
             </div>
 
-            <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
+            <a title="Click to copy" id="contactLink" onclick="myFunction()" href="#">
+              akzarma@gmail.com
+              <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </a>
             
-            <div class="mt-4">
-              <a href="#projects" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff';this.style.borderColor='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.3)'">View my recent projects →</a>
-            </div>
             
             <div class="social-icons mt-4">
               <ul class="list-unstyled">
@@ -889,8 +926,7 @@
     </div>
     
     <!-- Scroll indicator -->
-    <div class="scroll-indicator" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
-      <span>Scroll</span>
+    <div class="scroll-indicator">
       <div class="scroll-arrow"></div>
     </div>
   </div>
@@ -1002,14 +1038,9 @@
       }
     });
 
-    // Hide scroll indicator when scrolled past hero
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        scrollIndicator.classList.add('hidden');
-      } else {
-        scrollIndicator.classList.remove('hidden');
-      }
+    // Scroll indicator click to scroll to projects
+    document.querySelector('.scroll-indicator').addEventListener('click', () => {
+      document.getElementById('projects').scrollIntoView({behavior: 'smooth'});
     });
   </script>
 </body>
