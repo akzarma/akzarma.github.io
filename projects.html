@@ -32,10 +32,12 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
     html {
-      height: 100%;
-      overflow-y: scroll;
-      overflow-x: hidden;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
@@ -47,9 +49,7 @@
       font-family: 'Space Grotesk', sans-serif;
       background: #000;
       color: #fff;
-      min-height: 100%;
-      overflow-x: hidden;
-      overflow-y: visible;
+      min-height: 100vh;
     }
 
     /* Floating particles */

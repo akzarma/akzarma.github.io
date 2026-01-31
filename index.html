@@ -7,22 +7,60 @@
   <meta name="keywords"
     content="Akzarma akshay kumar sharma akshay sharma developer jaipur pune rajasthan maharashtra akzarma akzarma@gmail.com akzarma1 akzarma2 web react reactjs dev web dev django python" />
   <script>
-    function afterPageLoad() {
-      today = new Date()
-      const curHr = today.getHours()
+    function setLightMode() {
+      document.getElementsByTagName('html')[0].style.background = 'white';
+      document.getElementsByTagName('body')[0].style.background = 'white';
+      document.body.classList.add('light-mode');
+      const elems = document.getElementsByClassName('text-wh');
+      for(let i = 0; i < elems.length; i++) {
+        elems[i].style.color = 'black';
+      }
+      document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+      document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      document.getElementById('theme-icon-sun').style.display = 'block';
+      document.getElementById('theme-icon-moon').style.display = 'none';
+    }
 
-      if (curHr < 18 && curHr > 7) {
-        document.getElementsByTagName('html')[0].style.background = 'white';
-        document.getElementsByTagName('body')[0].style.background = 'white';
-        document.body.classList.add('light-mode');
-        const elems = document.getElementsByClassName('text-wh');
-        for(let i = 0; i<elems.length; i++) {
-          const element = elems[i];
-          element.style.color = 'black';
+    function setDarkMode() {
+      document.getElementsByTagName('html')[0].style.background = 'black';
+      document.getElementsByTagName('body')[0].style.background = 'black';
+      document.body.classList.remove('light-mode');
+      const elems = document.getElementsByClassName('text-wh');
+      for(let i = 0; i < elems.length; i++) {
+        elems[i].style.color = '';
+      }
+      document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(255,255,255,0.3)'));
+      document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(255,255,255,0.3)'));
+      document.getElementById('theme-icon-sun').style.display = 'none';
+      document.getElementById('theme-icon-moon').style.display = 'block';
+    }
+
+    function toggleTheme() {
+      const isLightMode = document.body.classList.contains('light-mode');
+      if (isLightMode) {
+        setDarkMode();
+        localStorage.setItem('theme', 'dark');
+      } else {
+        setLightMode();
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    function afterPageLoad() {
+      const savedTheme = localStorage.getItem('theme');
+
+      if (savedTheme === 'light') {
+        setLightMode();
+      } else if (savedTheme === 'dark') {
+        setDarkMode();
+      } else {
+        // Default: time-based
+        const curHr = new Date().getHours();
+        if (curHr < 18 && curHr > 7) {
+          setLightMode();
+        } else {
+          setDarkMode();
         }
-        // Update corner accents for light mode
-        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
-        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
       }
     } 
 
@@ -128,6 +166,10 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    
     /* Annotation font only */
     .annotation-text {
       font-family: 'Caveat', cursive !important;
@@ -187,12 +229,46 @@
       transform: rotate(180deg);
     }
 
+    /* Theme toggle button */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      background: transparent;
+      border: none;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      opacity: 0.3;
+    }
+    .theme-toggle:hover {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: rgba(255,255,255,0.9);
+      transition: all 0.3s ease;
+    }
+    .light-mode .theme-toggle svg {
+      fill: rgba(0,0,0,0.9);
+    }
+
     /* Light mode adjustments */
     .light-mode .particle {
       background: rgba(0,0,0,0.15);
     }
     .light-mode .corner-accent path {
       stroke: rgba(0,0,0,0.15);
+    }
+    .light-mode .github-graph img {
+      filter: none;
     }
 
     /* Photo gallery - scattered memories */
@@ -421,6 +497,160 @@
     .annotation-feb svg {
       margin-left: 60px;
     }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: breathe 2s ease-in-out infinite;
+      cursor: pointer;
+      z-index: 50;
+      transition: opacity 0.3s ease;
+    }
+    .scroll-indicator:hover {
+      color: rgba(255,255,255,0.8);
+    }
+    .scroll-indicator.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+    }
+    @keyframes breathe {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+      50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+    }
+
+    /* Projects section */
+    #projects {
+      min-height: 100vh;
+      padding: 80px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .projects-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .projects-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .projects-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .projects-subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+    .project-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .project-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .project-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .project-icon.chart { background: rgba(34, 197, 94, 0.15); }
+    .project-icon.mail { background: rgba(59, 130, 246, 0.15); }
+    .project-icon.qr { background: rgba(168, 85, 247, 0.15); padding: 8px; }
+    .project-name {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .project-tagline {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .project-tag {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+    .project-link {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+    .project-link:hover {
+      color: #fff;
+      gap: 8px;
+    }
+    .project-link::after {
+      content: '→';
+    }
+    @media (max-width: 768px) {
+      .projects-title { font-size: 1.8rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .scroll-indicator { bottom: 20px; }
+    }
     @media (max-width: 768px) {
       .graph-annotation {
         font-size: 8px;
@@ -471,6 +701,16 @@
     <div class="particle"></div>
     <div class="particle"></div>
   </div>
+
+  <!-- Theme toggle button -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+    <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+      <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+    </svg>
+    <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+    </svg>
+  </button>
 
   <!-- Corner accents -->
   <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
@@ -534,7 +774,7 @@
                       <path d="M155 25 L 160 32 L 165 25" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   </div>
-                  <a href="projects.html">
+                  <a href="#projects" style="cursor: pointer;">
                     <img src="images/github-graph.svg" alt="GitHub Contribution Graph" />
                   </a>
                 </div>
@@ -544,7 +784,7 @@
             <a  title="Click to copy" id="contactLink" onclick="myFunction()" href="#">akzarma@gmail.com</a>
             
             <div class="mt-4">
-              <a href="projects.html" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff';this.style.borderColor='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.3)'">View my recent projects →</a>
+              <a href="#projects" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff';this.style.borderColor='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.3)'">View my recent projects →</a>
             </div>
             
             <div class="social-icons mt-4">
@@ -596,7 +836,71 @@
         </div>
       </div>
     </div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
   </div>
+  
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="projects-container">
+      <div class="projects-header">
+        <h2 class="projects-title text-wh">Projects</h2>
+        <p class="projects-subtitle">Things I have built recently</p>
+      </div>
+      
+      <div class="projects-grid">
+        <!-- StockGPT -->
+        <article class="project-card">
+          <div class="project-icon chart">📈</div>
+          <h3 class="project-name text-wh">StockGPT</h3>
+          <p class="project-tagline">"An AI trader that actually reads the market"</p>
+          <p class="project-desc">AI-powered stock trading system with backtesting, live trading via broker integration, and real-time analysis dashboard.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">React</span>
+            <span class="project-tag">Trading Bot</span>
+            <span class="project-tag">AI/ML</span>
+          </div>
+          <span class="project-link" style="opacity: 0.5;">🔒 Private Repository</span>
+        </article>
+        
+        <!-- Inbox AI -->
+        <article class="project-card" onclick="window.open('https://github.com/akzarma/Inbox-AI', '_blank')">
+          <div class="project-icon mail">✉️</div>
+          <h3 class="project-name text-wh">Inbox AI</h3>
+          <p class="project-tagline">"Chat with all your emails"</p>
+          <p class="project-desc">Upload your Gmail export and ask questions like "How much did I spend on flights?" AI categorizes and extracts insights.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">LLM</span>
+            <span class="project-tag">React</span>
+            <span class="project-tag">NLP</span>
+          </div>
+          <a href="https://github.com/akzarma/Inbox-AI" target="_blank" class="project-link" onclick="event.stopPropagation()">View on GitHub</a>
+        </article>
+        
+        <!-- Hello Tag -->
+        <article class="project-card" onclick="window.open('https://hello-tag-seven.vercel.app/', '_blank')">
+          <div class="project-icon qr"><img src="images/hello-tag-icon.png" alt="Hello Tag" /></div>
+          <h3 class="project-name text-wh">Hello Tag</h3>
+          <p class="project-tagline">"Talk to strangers without giving your number"</p>
+          <p class="project-desc">Privacy-first vehicle communication. QR codes let strangers message owners without sharing phone numbers.</p>
+          <div class="project-tags">
+            <span class="project-tag">React Native</span>
+            <span class="project-tag">Expo</span>
+            <span class="project-tag">Supabase</span>
+            <span class="project-tag">QR Codes</span>
+          </div>
+          <a href="https://hello-tag-seven.vercel.app/" target="_blank" class="project-link" onclick="event.stopPropagation()">Try it live</a>
+        </article>
+      </div>
+    </div>
+  </section>
+  
   <!-- Lightbox for photos -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
@@ -644,6 +948,16 @@
         if (e.key === 'Escape') closeLightbox();
         if (e.key === 'ArrowLeft') navigateLightbox(-1, e);
         if (e.key === 'ArrowRight') navigateLightbox(1, e);
+      }
+    });
+
+    // Hide scroll indicator when scrolled past hero
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        scrollIndicator.classList.add('hidden');
+      } else {
+        scrollIndicator.classList.remove('hidden');
       }
     });
   </script>
