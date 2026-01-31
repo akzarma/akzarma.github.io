@@ -99,6 +99,13 @@
     }
   </script>
   <meta name="theme-color" content="#000000" />
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
@@ -495,9 +502,9 @@
                       <span class="annotation-text">having the time of my life!</span>
                       <!-- Scattered memory photos -->
                       <div class="memory-photos">
-                        <img src="images/travel-1.jpg" alt="Canyon overlook" class="memory-thumb" onclick="openLightbox(0)" />
-                        <img src="images/travel-4.jpg" alt="Exploring old ruins" class="memory-thumb" onclick="openLightbox(1)" />
-                        <img src="images/travel-3.jpg" alt="With monks in Sikkim" class="memory-thumb" onclick="openLightbox(2)" />
+                        <img src="images/grand-canyon.jpg" alt="Grand Canyon views" class="memory-thumb" onclick="openLightbox(0)" />
+                        <img src="images/car-drift-photo.jpg" alt="Drifting in Rajasthan" class="memory-thumb" onclick="openLightbox(1)" />
+                        <img src="images/sikkim-fun.jpg" alt="Making friends in Sikkim" class="memory-thumb" onclick="openLightbox(2)" />
                       </div>
                     </div>
                     <svg width="50" height="30" viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top: 2px;">
@@ -583,12 +590,12 @@
 
   <script>
     const memoryPhotos = [
-      { src: 'images/travel-1.jpg', caption: 'Taking in the views' },
-      { src: 'images/travel-4.jpg', caption: 'Exploring ancient ruins' },
-      { src: 'images/travel-3.jpg', caption: 'Making friends in Sikkim' },
-      { src: 'images/travel-5.jpg', caption: 'Desert adventures' },
-      { src: 'images/travel-6.jpg', caption: 'Yosemite vibes' },
-      { src: 'images/travel-7.jpg', caption: 'Skydiving!' }
+      { src: 'images/grand-canyon.jpg', caption: 'Taking in the Grand Canyon views' },
+      { src: 'images/car-drift-photo.jpg', caption: 'Drifting in Rajasthan' },
+      { src: 'images/sikkim-fun.jpg', caption: 'Making friends in Sikkim' },
+      { src: 'images/skydiving-las-vegas.jpg', caption: 'Skydiving in Las Vegas' },
+      { src: 'images/yosemite-usa.jpg', caption: 'Yosemite valley vibes' },
+      { src: 'images/rajasthan-offroad.jpg', caption: 'Off-road adventures' }
     ];
     let currentPhotoIndex = 0;
 
