@@ -36,6 +36,11 @@
       height: 100%;
       overflow-y: scroll;
       overflow-x: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
     }
 
     body {
@@ -188,19 +193,7 @@
     }
 
     /* Featured card (StockGPT) */
-    .project-card.featured {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-      border-color: rgba(255,255,255,0.12);
-    }
-    .project-card.featured .project-icon {
-      width: 70px;
-      height: 70px;
-      font-size: 32px;
-    }
-    .project-card.featured .project-title {
-      font-size: 2.2rem;
-    }
+
 
     /* Project number */
     .project-number {
@@ -401,15 +394,15 @@
   <div class="container">
     <header class="page-header">
       <h1 class="page-title">Projects</h1>
-      <p class="page-subtitle">THINGS I'VE BUILT</p>
+      <p class="page-subtitle">THINGS I HAVE BUILT RECENTLY</p>
     </header>
 
     <div class="projects-grid">
-      <!-- StockGPT - Featured -->
-      <article class="project-card featured">
+      <!-- StockGPT -->
+      <article class="project-card">
         <span class="project-number">01</span>
         <div class="project-icon chart">📈</div>
-        <h2 class="project-title">StockGPT <span class="private-badge">Private</span></h2>
+        <h2 class="project-title">StockGPT</h2>
         <p class="project-tagline">"An AI trader that actually reads the market"</p>
         <p class="project-description">
           An intelligent stock trading system powered by AI. Features backtesting engine, live trading with broker integration (Shoonya), real-time analysis, and a beautiful dashboard. The bot analyzes market patterns, executes trades automatically, and generates detailed performance reports.
@@ -437,7 +430,7 @@
           </div>
         </div>
         <div class="project-links">
-          <span class="project-link" style="opacity: 0.5; cursor: not-allowed;">🔒 Private Repository</span>
+          <a href="https://hello-tag-seven.vercel.app/" class="project-link" target="_blank" onclick="event.stopPropagation()">Try it live →</a>
         </div>
       </article>
 
@@ -446,7 +439,7 @@
         <span class="project-number">02</span>
         <div class="project-icon mail">✉️</div>
         <h2 class="project-title">Inbox AI</h2>
-        <p class="project-tagline">"Your emails, but actually useful"</p>
+        <p class="project-tagline">"Chat with all your emails"</p>
         <p class="project-description">
           AI-powered email intelligence system. Upload your Gmail export and ask questions like "How much did I spend on flights in 2024?" Automatically categorizes emails, extracts structured data (bookings, transactions, reservations), and surfaces insights through natural language queries.
         </p>
@@ -464,10 +457,10 @@
       </article>
 
       <!-- Hello Tag -->
-      <article class="project-card">
+      <article class="project-card" onclick="window.open('https://hello-tag-seven.vercel.app/', '_blank')">
         <span class="project-number">03</span>
         <div class="project-icon qr">🏷️</div>
-        <h2 class="project-title">Hello Tag <span class="private-badge">Private</span></h2>
+        <h2 class="project-title">Hello Tag</h2>
         <p class="project-tagline">"Talk to strangers without giving your number"</p>
         <p class="project-description">
           Privacy-first vehicle communication platform. Owners get QR codes for their vehicles; strangers scan to send messages or urgent alerts without exposing phone numbers. Features real-time chat, push notifications, and a companion mobile app for vehicle owners.
