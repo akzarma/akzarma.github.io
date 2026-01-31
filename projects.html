@@ -38,6 +38,7 @@
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: auto;
     }
 
     /* Floating particles */
@@ -233,6 +234,21 @@
       font-weight: 500;
       margin-bottom: 12px;
       letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .private-badge {
+      font-size: 0.65rem;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.15);
     }
     .project-tagline {
       font-size: 1rem;
@@ -384,10 +400,10 @@
 
     <div class="projects-grid">
       <!-- StockGPT - Featured -->
-      <article class="project-card featured" onclick="window.open('https://github.com/akzarma/StockGPT', '_blank')">
+      <article class="project-card featured">
         <span class="project-number">01</span>
         <div class="project-icon chart">📈</div>
-        <h2 class="project-title">StockGPT</h2>
+        <h2 class="project-title">StockGPT <span class="private-badge">Private</span></h2>
         <p class="project-tagline">"An AI trader that actually reads the market"</p>
         <p class="project-description">
           An intelligent stock trading system powered by AI. Features backtesting engine, live trading with broker integration (Shoonya), real-time analysis, and a beautiful dashboard. The bot analyzes market patterns, executes trades automatically, and generates detailed performance reports.
@@ -415,7 +431,7 @@
           </div>
         </div>
         <div class="project-links">
-          <a href="https://github.com/akzarma/StockGPT" class="project-link" target="_blank" onclick="event.stopPropagation()">View on GitHub</a>
+          <span class="project-link" style="opacity: 0.5; cursor: not-allowed;">🔒 Private Repository</span>
         </div>
       </article>
 
@@ -442,10 +458,10 @@
       </article>
 
       <!-- Hello Tag -->
-      <article class="project-card" onclick="window.open('https://github.com/akzarma/hello-tag', '_blank')">
+      <article class="project-card">
         <span class="project-number">03</span>
         <div class="project-icon qr">🏷️</div>
-        <h2 class="project-title">Hello Tag</h2>
+        <h2 class="project-title">Hello Tag <span class="private-badge">Private</span></h2>
         <p class="project-tagline">"Talk to strangers without giving your number"</p>
         <p class="project-description">
           Privacy-first vehicle communication platform. Owners get QR codes for their vehicles; strangers scan to send messages or urgent alerts without exposing phone numbers. Features real-time chat, push notifications, and a companion mobile app for vehicle owners.
@@ -459,7 +475,7 @@
           <span class="tech-tag">Privacy</span>
         </div>
         <div class="project-links">
-          <a href="https://github.com/akzarma/hello-tag" class="project-link" target="_blank" onclick="event.stopPropagation()">View on GitHub</a>
+          <span class="project-link" style="opacity: 0.5; cursor: not-allowed;">🔒 Private Repository</span>
         </div>
       </article>
     </div>
@@ -494,6 +510,11 @@
           el.style.background = 'rgba(0,0,0,0.06)';
           el.style.color = 'rgba(0,0,0,0.6)';
           el.style.borderColor = 'rgba(0,0,0,0.1)';
+        });
+        document.querySelectorAll('.private-badge').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.08)';
+          el.style.color = 'rgba(0,0,0,0.5)';
+          el.style.borderColor = 'rgba(0,0,0,0.15)';
         });
         document.querySelectorAll('.project-card').forEach(el => {
           el.style.background = 'rgba(0,0,0,0.03)';
