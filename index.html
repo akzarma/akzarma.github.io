@@ -736,6 +736,329 @@
       .projects-grid { grid-template-columns: 1fr; }
       .scroll-indicator { bottom: 20px; }
     }
+
+    /* Skills section */
+    #skills {
+      min-height: auto;
+      padding: 60px 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .skills-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .skills-title {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .skills-subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .light-mode .skills-subtitle {
+      color: rgba(0,0,0,0.5);
+    }
+    .skills-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .skill-pill {
+      padding: 12px 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.85);
+      transition: all 0.3s ease;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-pill:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .skill-pill.size-xl {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+    }
+    .skill-pill.size-lg {
+      font-size: 1.1rem;
+      padding: 13px 26px;
+    }
+    .skill-pill.size-md {
+      font-size: 1rem;
+      padding: 12px 24px;
+    }
+    .skill-pill.size-sm {
+      font-size: 0.9rem;
+      padding: 10px 20px;
+    }
+    .skill-pill.size-xs {
+      font-size: 0.85rem;
+      padding: 8px 16px;
+    }
+    .skill-icon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+    }
+    .light-mode .skill-pill {
+      background: rgba(0,0,0,0.04);
+      border-color: rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.85);
+    }
+    .light-mode .skill-pill:hover {
+      background: rgba(0,0,0,0.08);
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    /* Featured Posts section */
+    #featured-posts {
+      min-height: auto;
+      padding: 80px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .posts-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .posts-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .posts-title {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .posts-subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .light-mode .posts-subtitle {
+      color: rgba(0,0,0,0.5);
+    }
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    .post-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .post-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .light-mode .post-card {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.08);
+    }
+    .light-mode .post-card:hover {
+      background: rgba(0,0,0,0.06);
+      border-color: rgba(0,0,0,0.15);
+    }
+    .post-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.03);
+    }
+    .post-content {
+      padding: 25px;
+    }
+    .post-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      color: rgba(34, 197, 94, 1);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .post-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: rgba(255,255,255,0.95);
+      line-height: 1.4;
+    }
+    .light-mode .post-title {
+      color: rgba(0,0,0,0.95);
+    }
+    .post-excerpt {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .light-mode .post-excerpt {
+      color: rgba(0,0,0,0.6);
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 15px;
+    }
+    .light-mode .post-meta {
+      color: rgba(0,0,0,0.5);
+      border-top-color: rgba(0,0,0,0.08);
+    }
+    .post-date {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .post-link {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+    .post-link:hover {
+      color: #fff;
+      gap: 8px;
+    }
+    .light-mode .post-link {
+      color: rgba(0,0,0,0.7);
+    }
+    .light-mode .post-link:hover {
+      color: #000;
+    }
+    .post-link::after {
+      content: '→';
+    }
+    @media (max-width: 768px) {
+      .posts-title { font-size: 1.8rem; }
+      .posts-grid { grid-template-columns: 1fr; }
+      .skills-title { font-size: 1.5rem; }
+    }
+
+    /* Footer section */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 60px 20px 30px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 40px;
+    }
+    .light-mode footer {
+      border-top-color: rgba(0,0,0,0.08);
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    .footer-quote {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .light-mode .footer-quote {
+      color: rgba(0,0,0,0.6);
+    }
+    .footer-links {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .footer-link {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+    .footer-link:hover {
+      color: rgba(255,255,255,0.9);
+    }
+    .light-mode .footer-link {
+      color: rgba(0,0,0,0.5);
+    }
+    .light-mode .footer-link:hover {
+      color: rgba(0,0,0,0.9);
+    }
+    .footer-divider {
+      width: 60px;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 auto 25px;
+    }
+    .light-mode .footer-divider {
+      background: rgba(0,0,0,0.2);
+    }
+    .footer-bottom {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    .light-mode .footer-bottom {
+      color: rgba(0,0,0,0.4);
+    }
+    .footer-heart {
+      color: #e74c3c;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+    }
+    @media (max-width: 768px) {
+      .footer-quote { font-size: 1rem; }
+      .footer-links { gap: 15px; }
+    }
     @media (max-width: 768px) {
       .graph-annotation {
         font-size: 8px;
@@ -960,6 +1283,33 @@
     </div>
   </div>
   
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="skills-container">
+      <h2 class="skills-title text-wh">Skills & Technologies</h2>
+      <p class="skills-subtitle">Tools I work with</p>
+
+      <div class="skills-cloud">
+        <span class="skill-pill size-xl text-wh">🐍 Python</span>
+        <span class="skill-pill size-xl text-wh">⚛️ React</span>
+        <span class="skill-pill size-lg text-wh">📘 TypeScript</span>
+        <span class="skill-pill size-lg text-wh">☕ JavaScript</span>
+        <span class="skill-pill size-md text-wh">📱 React Native</span>
+        <span class="skill-pill size-md text-wh">🤖 AI/ML</span>
+        <span class="skill-pill size-md text-wh">🌐 Django</span>
+        <span class="skill-pill size-sm text-wh">☕ Java</span>
+        <span class="skill-pill size-sm text-wh">🟢 Node.js</span>
+        <span class="skill-pill size-sm text-wh">💾 PostgreSQL</span>
+        <span class="skill-pill size-sm text-wh">🔥 Supabase</span>
+        <span class="skill-pill size-xs text-wh">📊 Data Analysis</span>
+        <span class="skill-pill size-xs text-wh">🎯 Trading Bots</span>
+        <span class="skill-pill size-xs text-wh">🔧 Git</span>
+        <span class="skill-pill size-xs text-wh">🐳 Docker</span>
+        <span class="skill-pill size-xs text-wh">📱 Expo</span>
+      </div>
+    </div>
+  </section>
+
   <!-- Projects Section -->
   <section id="projects">
     <div class="projects-container">
@@ -1016,7 +1366,61 @@
       </div>
     </div>
   </section>
-  
+
+  <!-- Featured Posts Section -->
+  <section id="featured-posts">
+    <div class="posts-container">
+      <div class="posts-header">
+        <h2 class="posts-title text-wh">Featured Posts</h2>
+        <p class="posts-subtitle">Highlights from my journey</p>
+      </div>
+
+      <div class="posts-grid">
+        <!-- Post 1 -->
+        <article class="post-card" onclick="window.open('https://www.linkedin.com/posts/activity-7390101692341583872-1aeh', '_blank')">
+          <img src="images/linkedin-post-1.jpg" alt="Tech Week SF" class="post-image" onerror="this.style.display='none'">
+          <div class="post-content">
+            <span class="post-badge">🚀 Achievement</span>
+            <h3 class="post-title text-wh">Tech Week San Francisco Experience</h3>
+            <p class="post-excerpt">Amazing experience at Tech Week SF! Connected with incredible builders and innovators from around the world. The energy and innovation in San Francisco's tech scene is unmatched.</p>
+            <div class="post-meta">
+              <span class="post-date">📅 Jan 2025</span>
+              <a href="https://www.linkedin.com/posts/activity-7390101692341583872-1aeh" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 2 - Hackathon Win -->
+        <article class="post-card" onclick="window.open('https://www.linkedin.com/posts/neha-sharma335_techweeksf-hacktoberfest-hackathon-ugcPost-7383755795525591040-m-pW', '_blank')">
+          <img src="images/linkedin-post-2.jpg" alt="Hacktoberfest Winner" class="post-image" onerror="this.style.display='none'">
+          <div class="post-content">
+            <span class="post-badge">🥉 3rd Place</span>
+            <h3 class="post-title text-wh">Hacktoberfest 2025: Best Use of Google Gemini API</h3>
+            <p class="post-excerpt">Thrilled to have placed 3rd at Hacktoberfest 2025 during Tech Week SF! Our project "Gemini Nano Banana" uses AI to deliver news in an engaging, scrollable format. Built with Google's Gemini API.</p>
+            <div class="post-meta">
+              <span class="post-date">📅 Oct 2024</span>
+              <a href="https://www.linkedin.com/posts/neha-sharma335_techweeksf-hacktoberfest-hackathon-ugcPost-7383755795525591040-m-pW" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="post-card" onclick="window.open('https://www.linkedin.com/posts/activity-7375431512470650880-rzto', '_blank')">
+          <img src="images/linkedin-post-3.jpg" alt="40x Engineer with AI" class="post-image" onerror="this.style.display='none'">
+          <div class="post-content">
+            <span class="post-badge">⚡ 40x Faster</span>
+            <h3 class="post-title text-wh">How to Become a 40x Engineer with AI</h3>
+            <p class="post-excerpt">The secret to massive productivity gains: running multiple AI agents in parallel. Learn how to orchestrate AI assistants to work simultaneously on different tasks and achieve 40x efficiency.</p>
+            <div class="post-meta">
+              <span class="post-date">📅 Sep 2024</span>
+              <a href="https://www.linkedin.com/posts/activity-7375431512470650880-rzto" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- Lightbox for photos -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
@@ -1088,6 +1492,33 @@
       }
     });
   </script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-content">
+        <p class="footer-quote text-wh">
+          "English is the new programming language."
+        </p>
+
+        <div class="footer-links">
+          <a href="https://github.com/akzarma" target="_blank" class="footer-link">GitHub</a>
+          <span style="color: rgba(255,255,255,0.2);">·</span>
+          <a href="https://linkedin.com/in/akzarma" target="_blank" class="footer-link">LinkedIn</a>
+          <span style="color: rgba(255,255,255,0.2);">·</span>
+          <a href="https://x.com/akzarma" target="_blank" class="footer-link">X (Twitter)</a>
+          <span style="color: rgba(255,255,255,0.2);">·</span>
+          <a href="mailto:akzarma@gmail.com" class="footer-link">Email</a>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <p class="footer-bottom">
+        © 2026 Akshay Kumar Sharma
+      </p>
+    </div>
+  </footer>
 </body>
 
 </html>
