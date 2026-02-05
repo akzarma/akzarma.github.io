@@ -775,23 +775,36 @@
     }
     .skill-pill {
       padding: 12px 24px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 50px;
       font-size: 0.95rem;
-      color: rgba(255,255,255,0.85);
       transition: all 0.3s ease;
       cursor: default;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      border: 1px solid transparent;
     }
     .skill-pill:hover {
       transform: translateY(-3px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.2);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      filter: brightness(1.1);
     }
+    /* Subtle color variants */
+    .skill-pill.color-1 { background: rgba(100, 116, 139, 0.25); color: rgba(203, 213, 225, 0.95); }
+    .skill-pill.color-2 { background: rgba(99, 102, 241, 0.2); color: rgba(199, 210, 254, 0.95); }
+    .skill-pill.color-3 { background: rgba(168, 85, 247, 0.2); color: rgba(233, 213, 255, 0.95); }
+    .skill-pill.color-4 { background: rgba(59, 130, 246, 0.2); color: rgba(191, 219, 254, 0.95); }
+    .skill-pill.color-5 { background: rgba(34, 197, 94, 0.2); color: rgba(187, 247, 208, 0.95); }
+    .skill-pill.color-6 { background: rgba(245, 158, 11, 0.2); color: rgba(254, 215, 170, 0.95); }
+    .skill-pill.color-7 { background: rgba(239, 68, 68, 0.2); color: rgba(254, 202, 202, 0.95); }
+    .skill-pill.color-8 { background: rgba(236, 72, 153, 0.2); color: rgba(251, 207, 232, 0.95); }
+    .light-mode .skill-pill.color-1 { background: rgba(100, 116, 139, 0.15); color: rgba(51, 65, 85, 0.95); }
+    .light-mode .skill-pill.color-2 { background: rgba(99, 102, 241, 0.15); color: rgba(67, 56, 202, 0.95); }
+    .light-mode .skill-pill.color-3 { background: rgba(168, 85, 247, 0.15); color: rgba(107, 33, 168, 0.95); }
+    .light-mode .skill-pill.color-4 { background: rgba(59, 130, 246, 0.15); color: rgba(29, 78, 216, 0.95); }
+    .light-mode .skill-pill.color-5 { background: rgba(34, 197, 94, 0.15); color: rgba(21, 128, 61, 0.95); }
+    .light-mode .skill-pill.color-6 { background: rgba(245, 158, 11, 0.15); color: rgba(180, 83, 9, 0.95); }
+    .light-mode .skill-pill.color-7 { background: rgba(239, 68, 68, 0.15); color: rgba(185, 28, 28, 0.95); }
+    .light-mode .skill-pill.color-8 { background: rgba(236, 72, 153, 0.15); color: rgba(190, 24, 93, 0.95); }
     .skill-pill.size-xl {
       font-size: 1.2rem;
       padding: 14px 28px;
@@ -811,20 +824,6 @@
     .skill-pill.size-xs {
       font-size: 0.85rem;
       padding: 8px 16px;
-    }
-    .skill-icon {
-      width: 18px;
-      height: 18px;
-      opacity: 0.8;
-    }
-    .light-mode .skill-pill {
-      background: rgba(0,0,0,0.04);
-      border-color: rgba(0,0,0,0.1);
-      color: rgba(0,0,0,0.85);
-    }
-    .light-mode .skill-pill:hover {
-      background: rgba(0,0,0,0.08);
-      border-color: rgba(0,0,0,0.2);
     }
 
     /* Featured Posts section */
@@ -1290,22 +1289,22 @@
       <p class="skills-subtitle">Tools I work with</p>
 
       <div class="skills-cloud">
-        <span class="skill-pill size-xl text-wh">🐍 Python</span>
-        <span class="skill-pill size-xl text-wh">⚛️ React</span>
-        <span class="skill-pill size-lg text-wh">📘 TypeScript</span>
-        <span class="skill-pill size-lg text-wh">☕ JavaScript</span>
-        <span class="skill-pill size-md text-wh">📱 React Native</span>
-        <span class="skill-pill size-md text-wh">🤖 AI/ML</span>
-        <span class="skill-pill size-md text-wh">🌐 Django</span>
-        <span class="skill-pill size-sm text-wh">☕ Java</span>
-        <span class="skill-pill size-sm text-wh">🟢 Node.js</span>
-        <span class="skill-pill size-sm text-wh">💾 PostgreSQL</span>
-        <span class="skill-pill size-sm text-wh">🔥 Supabase</span>
-        <span class="skill-pill size-xs text-wh">📊 Data Analysis</span>
-        <span class="skill-pill size-xs text-wh">🎯 Trading Bots</span>
-        <span class="skill-pill size-xs text-wh">🔧 Git</span>
-        <span class="skill-pill size-xs text-wh">🐳 Docker</span>
-        <span class="skill-pill size-xs text-wh">📱 Expo</span>
+        <span class="skill-pill size-xl color-1">Python</span>
+        <span class="skill-pill size-xl color-2">React</span>
+        <span class="skill-pill size-lg color-3">TypeScript</span>
+        <span class="skill-pill size-lg color-4">JavaScript</span>
+        <span class="skill-pill size-md color-5">React Native</span>
+        <span class="skill-pill size-md color-6">AI/ML</span>
+        <span class="skill-pill size-md color-7">Django</span>
+        <span class="skill-pill size-sm color-8">Java</span>
+        <span class="skill-pill size-sm color-1">Node.js</span>
+        <span class="skill-pill size-sm color-2">PostgreSQL</span>
+        <span class="skill-pill size-sm color-3">Supabase</span>
+        <span class="skill-pill size-xs color-4">Data Analysis</span>
+        <span class="skill-pill size-xs color-5">Trading Bots</span>
+        <span class="skill-pill size-xs color-6">Git</span>
+        <span class="skill-pill size-xs color-7">Docker</span>
+        <span class="skill-pill size-xs color-8">Expo</span>
       </div>
     </div>
   </section>
@@ -1378,13 +1377,13 @@
       <div class="posts-grid">
         <!-- Post 1 -->
         <article class="post-card" onclick="window.open('https://www.linkedin.com/posts/activity-7390101692341583872-1aeh', '_blank')">
-          <img src="images/linkedin-post-1.jpg" alt="Tech Week SF" class="post-image" onerror="this.style.display='none'">
+          <img src="images/linkedin-post-1.jpg" alt="GitHub HQ Hackathon" class="post-image" onerror="this.style.display='none'">
           <div class="post-content">
-            <span class="post-badge">🚀 Achievement</span>
-            <h3 class="post-title text-wh">Tech Week San Francisco Experience</h3>
-            <p class="post-excerpt">Amazing experience at Tech Week SF! Connected with incredible builders and innovators from around the world. The energy and innovation in San Francisco's tech scene is unmatched.</p>
+            <span class="post-badge">🏆 Top 6 Finalist</span>
+            <h3 class="post-title text-wh">Edge AI Hackathon at GitHub Headquarters</h3>
+            <p class="post-excerpt">Made it to Top 6 at the Edge Deployments & On-Device AI Hackathon hosted by Meta and Cerebral Valley at GitHub HQ. Built an Android app with ExecuTorch + Llama 3.2 for fully on-device inference—no cloud needed.</p>
             <div class="post-meta">
-              <span class="post-date">📅 Jan 2025</span>
+              <span class="post-date">📅 Oct 2025</span>
               <a href="https://www.linkedin.com/posts/activity-7390101692341583872-1aeh" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
             </div>
           </div>
@@ -1398,7 +1397,7 @@
             <h3 class="post-title text-wh">Hacktoberfest 2025: Best Use of Google Gemini API</h3>
             <p class="post-excerpt">Thrilled to have placed 3rd at Hacktoberfest 2025 during Tech Week SF! Our project "Gemini Nano Banana" uses AI to deliver news in an engaging, scrollable format. Built with Google's Gemini API.</p>
             <div class="post-meta">
-              <span class="post-date">📅 Oct 2024</span>
+              <span class="post-date">📅 Oct 2025</span>
               <a href="https://www.linkedin.com/posts/neha-sharma335_techweeksf-hacktoberfest-hackathon-ugcPost-7383755795525591040-m-pW" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
             </div>
           </div>
@@ -1412,7 +1411,7 @@
             <h3 class="post-title text-wh">How to Become a 40x Engineer with AI</h3>
             <p class="post-excerpt">The secret to massive productivity gains: running multiple AI agents in parallel. Learn how to orchestrate AI assistants to work simultaneously on different tasks and achieve 40x efficiency.</p>
             <div class="post-meta">
-              <span class="post-date">📅 Sep 2024</span>
+              <span class="post-date">📅 Aug 2025</span>
               <a href="https://www.linkedin.com/posts/activity-7375431512470650880-rzto" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
             </div>
           </div>
