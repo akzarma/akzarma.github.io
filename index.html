@@ -470,6 +470,11 @@
     }
     .stat-item {
       text-align: center;
+      transition: all 0.3s ease;
+    }
+    .stat-item:hover {
+      transform: translateY(-2px);
+      opacity: 0.8;
     }
     .stat-number {
       font-size: 1.8rem;
@@ -1164,20 +1169,20 @@
         <div class="container">
           <div class="banner-text text-center">
             <h1>
-              <a href="index.html" class="logo text-wh text-uppercase font-weight-light">Hi! I'm Akshay</a>
+              <a href="#" onclick="event.preventDefault(); document.getElementById('featured-posts').scrollIntoView({behavior: 'smooth'});" class="logo text-wh text-uppercase font-weight-light" style="cursor: pointer;">Hi! I'm Akshay</a>
             </h1>
-            <p class="text-bl text-wh text-li mt-3">
+            <p class="text-bl text-wh text-li mt-3" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'});" style="cursor: pointer;">
               I give solutions to technical problems
             </p>
 
             <div class="stats-section">
               <div class="stats-container">
-                <div class="stat-item">
+                <div class="stat-item" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'});" style="cursor: pointer;">
                   <div class="stat-number text-wh" id="work-counter">0</div>
                   <div class="stat-label text-wh">lines @ work</div>
                 </div>
                 <div class="stat-divider"></div>
-                <div class="stat-item">
+                <div class="stat-item" onclick="document.getElementById('skills').scrollIntoView({behavior: 'smooth'});" style="cursor: pointer;">
                   <div class="stat-number text-wh" id="personal-counter">0</div>
                   <div class="stat-label text-wh">lines personal</div>
                 </div>
