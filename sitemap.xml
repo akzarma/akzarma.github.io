@@ -31,20 +31,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- GitHub Profile -->
-  <url>
-    <loc>https://github.com/akzarma</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- LinkedIn Profile -->
-  <url>
-    <loc>https://linkedin.com/in/akzarma</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
 </urlset>
