@@ -312,6 +312,11 @@
     .light-mode .project-link:hover {
       color: #000;
     }
+    .light-mode .project-pin {
+      color: rgba(0,0,0,0.75);
+      border-color: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.06);
+    }
 
     /* Email link styling */
     #contactLink {
@@ -668,6 +673,7 @@
       padding: 30px;
       transition: all 0.4s ease;
       cursor: pointer;
+      position: relative;
     }
     .project-card:hover {
       transform: translateY(-5px);
@@ -693,6 +699,36 @@
     .project-icon.chart { background: rgba(34, 197, 94, 0.15); }
     .project-icon.mail { background: rgba(59, 130, 246, 0.15); }
     .project-icon.qr { background: rgba(168, 85, 247, 0.15); padding: 8px; }
+    .project-icon.resume { background: rgba(14, 165, 233, 0.15); }
+    .project-icon.mobile { background: rgba(236, 72, 153, 0.15); }
+    .project-pin {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+    .pin-alpha {
+      color: #67e8f9;
+      border-color: rgba(103, 232, 249, 0.45);
+      background: rgba(34, 211, 238, 0.12);
+    }
+    .pin-beta {
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.45);
+      background: rgba(234, 179, 8, 0.12);
+    }
+    .pin-live {
+      color: #86efac;
+      border-color: rgba(134, 239, 172, 0.45);
+      background: rgba(34, 197, 94, 0.12);
+    }
     .project-name {
       font-size: 1.4rem;
       font-weight: 500;
@@ -1328,6 +1364,7 @@
       <div class="projects-grid">
         <!-- StockGPT -->
         <article class="project-card">
+          <span class="project-pin pin-beta">📌 Beta</span>
           <div class="project-icon chart">📈</div>
           <h3 class="project-name text-wh">StockGPT</h3>
           <p class="project-tagline">"An AI trader that actually reads the market"</p>
@@ -1343,6 +1380,7 @@
         
         <!-- Inbox AI -->
         <article class="project-card" onclick="window.open('https://github.com/akzarma/Inbox-AI', '_blank')">
+          <span class="project-pin pin-alpha">📌 Alpha</span>
           <div class="project-icon mail">✉️</div>
           <h3 class="project-name text-wh">Inbox AI</h3>
           <p class="project-tagline">"Chat with all your emails"</p>
@@ -1358,6 +1396,7 @@
         
         <!-- Hello Tag -->
         <article class="project-card" onclick="window.open('https://hello-tag-seven.vercel.app/', '_blank')">
+          <span class="project-pin pin-live">📌 Live</span>
           <div class="project-icon qr"><img src="images/hello-tag-icon.png" alt="Hello Tag" /></div>
           <h3 class="project-name text-wh">Hello Tag</h3>
           <p class="project-tagline">"Secure Your Vehicle, Stay Connected"</p>
@@ -1369,6 +1408,38 @@
             <span class="project-tag">QR Codes</span>
           </div>
           <a href="https://hello-tag-seven.vercel.app/" target="_blank" class="project-link" onclick="event.stopPropagation()">Try it live</a>
+        </article>
+
+        <!-- ResumeMaker -->
+        <article class="project-card" onclick="window.open('https://build-resume-ai.vercel.app/', '_blank')">
+          <span class="project-pin pin-alpha">📌 Alpha</span>
+          <div class="project-icon resume">📝</div>
+          <h3 class="project-name text-wh">ResumeMaker</h3>
+          <p class="project-tagline">"Build a polished resume through chat"</p>
+          <p class="project-desc">Chat-first AI resume builder that ingests GitHub/LinkedIn/old resumes, recreates reference layouts, and exports clean PDF output.</p>
+          <div class="project-tags">
+            <span class="project-tag">AI</span>
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">PDF Export</span>
+            <span class="project-tag">Template Cloning</span>
+          </div>
+          <a href="https://build-resume-ai.vercel.app/" target="_blank" class="project-link" onclick="event.stopPropagation()">Try it live</a>
+        </article>
+
+        <!-- ExecuTorch Mobile Kit -->
+        <article class="project-card" onclick="window.open('https://github.com/akzarma/executorch-mobile-kit', '_blank')">
+          <span class="project-pin pin-alpha">📌 Alpha</span>
+          <div class="project-icon mobile">📱</div>
+          <h3 class="project-name text-wh">ExecuTorch Mobile Kit</h3>
+          <p class="project-tagline">"Privacy-first financial AI, fully on-device"</p>
+          <p class="project-desc">On-device email finance extractor for Android using ExecuTorch + TinyLlama, with local SQLite analytics and zero cloud calls.</p>
+          <div class="project-tags">
+            <span class="project-tag">ExecuTorch</span>
+            <span class="project-tag">TinyLlama</span>
+            <span class="project-tag">Android</span>
+            <span class="project-tag">Qualcomm QNN</span>
+          </div>
+          <a href="https://github.com/akzarma/executorch-mobile-kit" target="_blank" class="project-link" onclick="event.stopPropagation()">View on GitHub</a>
         </article>
       </div>
     </div>
