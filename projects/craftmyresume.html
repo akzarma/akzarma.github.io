@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CraftMyResume AI | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="An AI-powered resume builder that turns a simple conversation into a professionally formatted, export-ready resume." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="CraftMyResume AI | Akshay" />
+  <meta property="og:description" content="Build a polished resume through chat. An AI-powered resume builder that turns a conversation into a professionally formatted, export-ready resume." />
+  <meta property="og:image" content="https://akzarma.github.io/images/github-graph-og.png?v=2" />
+  <meta property="og:url" content="https://akzarma.github.io/projects/craftmyresume" />
+  <meta property="og:type" content="article" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '\2190';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .hero-emoji {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .pin-alpha {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 5px 14px;
+      color: #67e8f9;
+      border: 1px solid rgba(103,232,249,0.45);
+      background: rgba(34,211,238,0.12);
+      border-radius: 20px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 12px 28px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+    .hero-link:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+    .hero-link::after {
+      content: '\2192';
+      transition: transform 0.3s ease;
+    }
+    .hero-link:hover::after {
+      transform: translateX(4px);
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+    .section-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+    }
+    .section-text p {
+      margin-bottom: 16px;
+    }
+    .section-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-left: 20px;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.3);
+    }
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+    .feature-name {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+    }
+
+    /* Tech stack cards */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .tech-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tech-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-4px);
+    }
+    .tech-card-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .tech-card-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    /* Challenge cards */
+    .challenge {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 20px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .challenge:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .challenge:last-child {
+      margin-bottom: 0;
+    }
+    .challenge-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .challenge-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+    }
+
+    /* Divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 60px 0;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-emoji { font-size: 3rem; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="../index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <span class="hero-emoji">&#x1F4DD;</span>
+      <h1 class="hero-title">CraftMyResume AI</h1>
+      <p class="hero-tagline">Build a polished resume through chat</p>
+      <span class="pin-alpha">Alpha</span>
+      <br>
+      <a href="https://build-resume-ai.vercel.app/" class="hero-link" target="_blank" rel="noopener noreferrer">Try it live</a>
+    </header>
+
+    <!-- Overview -->
+    <section class="section">
+      <h2 class="section-title">Overview</h2>
+      <div class="section-text">
+        <p>An AI resume builder that turns a chat conversation into a formatted, export-ready resume. No templates to fill out, no forms to fight with.</p>
+        <p>Instead of staring at a blank template, you just talk to the AI about your experience, skills, and goals. It pulls structured info from your responses, asks follow-ups to fill gaps, and builds out the resume in real time.</p>
+        <p>It can also pull in your GitHub profile for project contributions, parse a LinkedIn export to pre-fill work history, and analyze a reference resume to clone its layout and section structure. Your final output matches the design you picked, not some generic default.</p>
+        <p>A live preview updates as the conversation goes. When you're done, one click exports a clean PDF. The whole flow is meant to feel like talking to a career coach, not wrestling with a word processor.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Key Features -->
+    <section class="section">
+      <h2 class="section-title">Key Features</h2>
+      <ul class="feature-list">
+        <li><span class="feature-name">Conversational resume building.</span> Describe your experience naturally and the AI structures it into sections.</li>
+        <li><span class="feature-name">GitHub profile ingestion.</span> Imports your repos, contributions, and project descriptions.</li>
+        <li><span class="feature-name">LinkedIn data import.</span> Parses exported LinkedIn data to pre-fill work history, education, and skills.</li>
+        <li><span class="feature-name">Reference template analysis.</span> Upload any resume PDF and the engine clones its layout and section order.</li>
+        <li><span class="feature-name">One-click PDF export.</span> Generates a clean, print-ready PDF.</li>
+        <li><span class="feature-name">Multiple resume formats.</span> Supports chronological, functional, and hybrid layouts.</li>
+        <li><span class="feature-name">AI content suggestions.</span> Rewrites bullet points, suggests stronger verbs, and quantifies achievements.</li>
+        <li><span class="feature-name">Drag-and-drop reordering.</span> Rearrange sections in the live preview for different roles.</li>
+        <li><span class="feature-name">Real-time preview.</span> See the resume update live as the conversation goes.</li>
+        <li><span class="feature-name">Smart follow-up questions.</span> The AI spots thin sections and asks targeted questions to fill them out.</li>
+      </ul>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Tech Stack -->
+    <section class="section">
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-card-title">Next.js</div>
+          <p class="tech-card-desc">Handles SSR for fast initial loads, API routes for AI orchestration, and React Server Components for streaming the live preview.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-title">AI / LLM</div>
+          <p class="tech-card-desc">Powers the chat interface, extracts structured resume data from conversation, and maps casual descriptions to professional resume language.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-title">PDF Generation</div>
+          <p class="tech-card-desc">Renders the final resume into a PDF, preserving font metrics, margins, and page breaks so the export matches the on-screen preview.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-title">Template Parsing Engine</div>
+          <p class="tech-card-desc">Analyzes uploaded reference resumes to detect layout grids, heading styles, font sizes, and spacing. Encodes those into a reusable template the PDF renderer can reproduce.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Architecture -->
+    <section class="section">
+      <h2 class="section-title">Architecture</h2>
+      <div class="section-text">
+        <p>Pipeline architecture driven by the chat interface. Messages go into an AI orchestration layer that classifies intent (new info, edit, or question) and extracts structured data (job titles, dates, skills) into a normalized resume schema.</p>
+        <p>That schema feeds the template engine, which maps sections onto the active layout. A live preview subscribes to schema changes and re-renders on every update.</p>
+        <p>On export, the PDF service reads the same schema and template params to produce a print-ready document. External sources (GitHub API, LinkedIn parser) go through ingestion adapters that normalize their output before merging with conversational data.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Challenges & Solutions -->
+    <section class="section">
+      <h2 class="section-title">Challenges &amp; Solutions</h2>
+
+      <div class="challenge">
+        <h3 class="challenge-title">Accurately cloning diverse resume layouts</h3>
+        <p class="challenge-text">Resume templates vary a lot. Multi-column layouts, sidebars, icon-heavy headers, creative typography. The parser has to infer grid structures, spacing ratios, and font hierarchies from a flat PDF with no access to the source file. Edge cases like overlapping text boxes, embedded graphics, and non-standard fonts needed iterative refinement. There's a fallback system that degrades to the closest default template when a layout is too complex to clone exactly.</p>
+      </div>
+
+      <div class="challenge">
+        <h3 class="challenge-title">Generating professional content from conversational input</h3>
+        <p class="challenge-text">People describe work casually. "I basically ran the whole backend migration" needs to become something like "Led migration of backend services from monolith to microservices, reducing deploy time by 40%." The AI has to bridge that gap without making up metrics or inflating responsibilities. This took careful prompt engineering, a feedback loop where users confirm or correct bullet points, and tone calibration that adapts to industry and seniority level.</p>
+      </div>
+
+      <div class="challenge">
+        <h3 class="challenge-title">PDF rendering fidelity across formats</h3>
+        <p class="challenge-text">Getting pixel-consistent output across PDF readers, operating systems, and print settings is hard. Font substitution, subpixel rendering, and varying default margins all break layouts. The pipeline embeds fonts directly, uses absolute positioning instead of flow layout, and runs a validation pass that checks element positions against template coordinates, flagging drift before download.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p class="footer-text">
+        Interested in collaborating? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Light mode script -->
+  <script>
+    function afterPageLoad() {
+      today = new Date();
+      const curHr = today.getHours();
+
+      const savedTheme = localStorage.getItem('theme');
+      const shouldBeLight = savedTheme !== 'dark';
+      if (shouldBeLight) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+
+        document.querySelectorAll('.hero-title, .section-title, .tech-card-title, .challenge-title').forEach(el => {
+          el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+          el.style.webkitBackgroundClip = 'text';
+          el.style.webkitTextFillColor = 'transparent';
+        });
+        document.querySelectorAll('.section-text, .section-text p, .hero-tagline, .feature-list li, .tech-card-desc, .challenge-text').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+        });
+        document.querySelectorAll('.feature-name').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.85)';
+        });
+        document.querySelectorAll('.tech-card, .challenge').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.03)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelectorAll('.section-divider').forEach(el => {
+          el.style.borderColor = 'rgba(0,0,0,0.06)';
+        });
+        document.querySelectorAll('.feature-list li').forEach(el => {
+          el.style.borderBottomColor = 'rgba(0,0,0,0.06)';
+        });
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.page-footer').style.borderColor = 'rgba(0,0,0,0.06)';
+        document.querySelector('.hero-link').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.hero-link').style.borderColor = 'rgba(0,0,0,0.15)';
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_3bJxDMLYMR7WSiglfbhLx4QwOCPXfXD1oJTPrM9DjHb', {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'identified_only'
+    });
+  </script>
+</body>
+
+</html>

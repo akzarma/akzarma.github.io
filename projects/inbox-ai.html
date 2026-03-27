@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Inbox AI | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Inbox AI — Chat with all your emails" />
+  <meta property="og:description" content="AI-powered email intelligence system. Upload your Gmail export and ask questions in plain English. Powered by Claude and GPT-4." />
+  <meta property="og:image" content="https://akzarma.github.io/images/github-graph-og.png?v=2" />
+  <meta property="og:url" content="https://akzarma.github.io/projects/inbox-ai" />
+  <meta property="og:type" content="article" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '\2190';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .hero-icon {
+      font-size: 56px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+      color: #67e8f9;
+      border-color: rgba(103, 232, 249, 0.45);
+      background: rgba(34, 211, 238, 0.12);
+      margin-bottom: 24px;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+    .hero-link:hover {
+      color: #fff;
+      gap: 12px;
+    }
+    .hero-link::after {
+      content: '\2192';
+      transition: transform 0.3s ease;
+    }
+    .hero-link:hover::after {
+      transform: translateX(4px);
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Overview */
+    .overview p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      padding-left: 20px;
+    }
+    .feature-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.25);
+    }
+    .feature-list li strong {
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+    }
+
+    /* Tech stack cards */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .tech-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    .tech-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .tech-card-name {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .tech-card-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+    }
+
+    /* Architecture */
+    .architecture-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+    }
+
+    /* Challenges */
+    .challenge-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    .challenge-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .challenge-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .challenge-content {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-icon { font-size: 42px; }
+      .section-title { font-size: 1.5rem; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="../index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <span class="hero-icon">✉️</span>
+      <h1 class="hero-title">Inbox AI</h1>
+      <p class="hero-tagline">"Chat with all your emails"</p>
+      <span class="hero-badge">Alpha</span>
+      <br>
+      <a href="https://github.com/akzarma/Inbox-AI" class="hero-link" target="_blank">View on GitHub</a>
+    </header>
+
+    <!-- Overview -->
+    <section class="section overview">
+      <h2 class="section-title">Overview</h2>
+      <p>Finding stuff buried in years of email is painful. Native email search doesn't really help when you need a flight confirmation from six months ago, want to tally up subscription costs, or need that hotel reservation your friend forwarded. Inbox AI lets you upload a Gmail export and ask questions in plain English, like chatting with someone who remembers every message you've ever sent or received.</p>
+      <p>It parses and indexes your entire email archive, then uses a RAG pipeline to find the most relevant messages for any query. Ask "How much did I spend on flights in 2024?" and it'll dig through thousands of emails, pull out booking confirmations, extract dollar amounts, and give you a clear answer. It goes past keyword matching. It understands context, recognizes entities like merchants, dates, and amounts, and can categorize your emails into groups like travel, finance, shopping, and subscriptions.</p>
+      <p>It also doubles as an exploration of multi-LLM architectures. You can switch between Claude and GPT-4, making it easy to compare response quality, latency, and cost. Conversations are saved so you can revisit past queries and refine them over time.</p>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section">
+      <h2 class="section-title">Key Features</h2>
+      <ul class="feature-list">
+        <li><strong>Gmail export ingestion.</strong> Upload a Google Takeout archive and the system parses mbox files, extracting headers, body text, and attachments into a structured format for indexing.</li>
+        <li><strong>Natural language queries.</strong> Ask things like "What flights did I book last summer?" or "Show me all emails from my bank" and get answers pulled directly from your email history.</li>
+        <li><strong>Automatic email categorization.</strong> Emails get classified into categories like travel, finance, shopping, subscriptions, and personal using NLP topic modeling.</li>
+        <li><strong>Structured data extraction for bookings.</strong> Flight confirmations, hotel reservations, and event tickets are parsed into structured records with dates, locations, confirmation numbers, and provider details.</li>
+        <li><strong>Transaction and spending analysis.</strong> Financial emails from banks, payment processors, and merchants are parsed to show spending breakdowns, recurring charges, and cost trends.</li>
+        <li><strong>Reservation tracking.</strong> Restaurant bookings, doctor appointments, and service reservations are extracted and organized chronologically.</li>
+        <li><strong>Multi-LLM support with Claude and GPT-4.</strong> Switch between Anthropic's Claude and OpenAI's GPT-4 to compare answer quality, speed, and per-query cost.</li>
+        <li><strong>Persistent conversation history.</strong> Every question and answer is saved so you can revisit past sessions and refine earlier queries.</li>
+        <li><strong>Export results.</strong> Download insights, spending reports, and structured data as CSV or JSON for use in spreadsheets or other tools.</li>
+        <li><strong>Privacy-first local processing.</strong> Your email data stays on your machine during parsing and indexing. Only the minimal context needed for each query is sent to the LLM provider.</li>
+      </ul>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section">
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-card-name">Python</div>
+          <p class="tech-card-desc">Runs the core NLP pipeline: email parsing, text preprocessing, entity extraction, and embedding generation.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">React</div>
+          <p class="tech-card-desc">The chat interface where you submit queries, view conversations, browse categorized emails, and explore extracted data.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">Claude / GPT-4</div>
+          <p class="tech-card-desc">The language understanding layer. Interprets queries, reasons over retrieved email context, and generates answers with citations back to source messages.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">NLP</div>
+          <p class="tech-card-desc">Entity extraction, named entity recognition, and topic classification. Pulls dates, amounts, merchant names, and booking details from unstructured email text.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="section">
+      <h2 class="section-title">Architecture</h2>
+      <p class="architecture-text">Four-stage pipeline. First, the parsing layer ingests Gmail mbox exports, decodes MIME structures, strips HTML, and normalizes headers into clean document objects. Second, each email gets converted into vector embeddings and stored in a local vector index for fast similarity search. Third, when you submit a query, the RAG retrieval layer encodes the question, runs approximate nearest-neighbor search, and assembles a context window of the most relevant email snippets. Finally, the assembled context plus your question gets sent to the selected LLM (Claude or GPT-4), which generates an answer grounded in the retrieved evidence.</p>
+    </section>
+
+    <!-- Challenges & Solutions -->
+    <section class="section">
+      <h2 class="section-title">Challenges & Solutions</h2>
+      <div class="challenge-card">
+        <h3 class="challenge-title">Parsing diverse email formats</h3>
+        <p class="challenge-content">Email is one of the oldest and most inconsistent digital formats still in use. A single Gmail export can contain plain text, nested MIME multipart structures, base64-encoded attachments, HTML-only emails with inline CSS, forwarded chains with mangled headers, and auto-generated messages with wildly varying templates. Getting clean text out of all of these required a lot of edge-case handling: detecting character encodings, stripping boilerplate signatures, reconstructing forwarded threads into coherent timelines.</p>
+      </div>
+      <div class="challenge-card">
+        <h3 class="challenge-title">Accurate entity extraction from unstructured text</h3>
+        <p class="challenge-content">Pulling structured data like dollar amounts, dates, flight numbers, and merchant names from free-form email text is harder than it sounds. The same info can appear in dozens of formats. A price might be "$1,234.56", "USD 1234.56", or "1,234 dollars" depending on the sender. Dates range from ISO formats to "next Thursday." Reliable extraction required combining regex pattern matching for known templates with NLP-based entity recognition for everything else, plus a validation layer to catch misparses.</p>
+      </div>
+      <div class="challenge-card">
+        <h3 class="challenge-title">Balancing cost across LLM providers</h3>
+        <p class="challenge-content">Claude and GPT-4 have different pricing, context window sizes, and token-counting behavior, so the same query can cost a lot more on one provider depending on context length. The system uses adaptive context windowing that tailors the number of retrieved email snippets to each provider's token limits and pricing. This keeps answer quality high without surprise cost spikes, while staying transparent about which model is being used and the trade-offs involved.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p class="footer-text">
+        Interested in collaborating? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Light mode detection -->
+  <script>
+    function afterPageLoad() {
+      today = new Date()
+      const curHr = today.getHours()
+
+      const savedTheme = localStorage.getItem('theme');
+      const shouldBeLight = savedTheme !== 'dark';
+      if (shouldBeLight) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+        // Titles
+        document.querySelectorAll('.hero-title, .section-title').forEach(el => {
+          el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+          el.style.webkitBackgroundClip = 'text';
+          el.style.webkitTextFillColor = 'transparent';
+        });
+        // Body text
+        document.querySelectorAll('.overview p, .architecture-text, .feature-list li, .challenge-content, .tech-card-desc').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+        });
+        // Feature list bullets
+        document.querySelectorAll('.feature-list li').forEach(el => {
+          el.style.borderBottomColor = 'rgba(0,0,0,0.06)';
+        });
+        // Strong text in features
+        document.querySelectorAll('.feature-list li strong').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.8)';
+        });
+        // Cards
+        document.querySelectorAll('.tech-card, .challenge-card').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.03)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        // Card names
+        document.querySelectorAll('.tech-card-name, .challenge-title').forEach(el => {
+          el.style.color = '#000';
+        });
+        // Hero
+        document.querySelector('.hero-tagline').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.hero-link').style.color = 'rgba(0,0,0,0.7)';
+        // Badge
+        document.querySelector('.hero-badge').style.color = '#0891b2';
+        document.querySelector('.hero-badge').style.borderColor = 'rgba(8, 145, 178, 0.45)';
+        document.querySelector('.hero-badge').style.background = 'rgba(6, 182, 212, 0.12)';
+        // Nav, footer
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.page-footer').style.borderTopColor = 'rgba(0,0,0,0.06)';
+        // Corner accents
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing identify alias people.set people.set_once set_config reset get_config get_property getFeatureFlag getFeatureFlagPayload isFeatureEnabled onFeatureFlags getUserId setPersonProperties getGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags group reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_3bJxDMLYMR7WSiglfbhLx4QwOCPXfXD1oJTPrM9DjHb', {
+      api_host: 'https://us.i.posthog.com',
+      capture_pageview: true
+    });
+  </script>
+</body>
+
+</html>

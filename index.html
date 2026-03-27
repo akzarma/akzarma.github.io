@@ -60,18 +60,11 @@
     function afterPageLoad() {
       const savedTheme = localStorage.getItem('theme');
 
-      if (savedTheme === 'light') {
-        setLightMode();
-      } else if (savedTheme === 'dark') {
+      if (savedTheme === 'dark') {
         setDarkMode();
       } else {
-        // Default: time-based
-        const curHr = new Date().getHours();
-        if (curHr < 18 && curHr > 7) {
-          setLightMode();
-        } else {
-          setDarkMode();
-        }
+        // Default: light mode
+        setLightMode();
       }
     } 
 
@@ -707,7 +700,8 @@
     }
     .project-icon.chart { background: rgba(34, 197, 94, 0.15); }
     .project-icon.mail { background: rgba(59, 130, 246, 0.15); }
-    .project-icon.qr { background: rgba(168, 85, 247, 0.15); padding: 8px; }
+    .project-icon.qr { background: transparent; padding: 0; color: #fff; }
+    .light-mode .project-icon.qr { color: #000; }
     .project-icon.resume { background: rgba(14, 165, 233, 0.15); }
     .project-icon.mobile { background: rgba(236, 72, 153, 0.15); }
     .project-pin {
@@ -1372,7 +1366,7 @@
       
       <div class="projects-grid">
         <!-- StockGPT -->
-        <article class="project-card">
+        <article class="project-card" onclick="window.location.href='projects/stockgpt.html'">
           <span class="project-pin pin-beta">Beta</span>
           <div class="project-icon chart">📈</div>
           <h3 class="project-name text-wh">StockGPT</h3>
@@ -1384,11 +1378,11 @@
             <span class="project-tag">Trading Bot</span>
             <span class="project-tag">AI/ML</span>
           </div>
-          <span class="project-link" style="opacity: 0.5;">🔒 Private Repository</span>
+          <a href="projects/stockgpt.html" class="project-link" onclick="event.stopPropagation()">Read more</a>
         </article>
         
         <!-- Inbox AI -->
-        <article class="project-card" onclick="window.open('https://github.com/akzarma/Inbox-AI', '_blank')">
+        <article class="project-card" onclick="window.location.href='projects/inbox-ai.html'">
           <span class="project-pin pin-alpha">Alpha</span>
           <div class="project-icon mail">✉️</div>
           <h3 class="project-name text-wh">Inbox AI</h3>
@@ -1400,13 +1394,13 @@
             <span class="project-tag">React</span>
             <span class="project-tag">NLP</span>
           </div>
-          <a href="https://github.com/akzarma/Inbox-AI" target="_blank" class="project-link" onclick="event.stopPropagation()">View on GitHub</a>
+          <a href="projects/inbox-ai.html" class="project-link" onclick="event.stopPropagation()">Read more</a>
         </article>
         
         <!-- Hello Tag -->
-        <article class="project-card" onclick="window.open('https://hello-tag-seven.vercel.app/', '_blank')">
+        <article class="project-card" onclick="window.location.href='projects/hellotag.html'">
           <span class="project-pin pin-live">Live</span>
-          <div class="project-icon qr"><img src="images/hello-tag-icon.png" alt="Hello Tag" /></div>
+          <div class="project-icon qr"><img src="images/hello-tag-icon.svg" alt="Hello Tag" style="width:50px;height:50px;" /></div>
           <h3 class="project-name text-wh">Hello Tag</h3>
           <p class="project-tagline">"Secure Your Vehicle, Stay Connected"</p>
           <p class="project-desc">Privacy-first vehicle communication. QR codes let strangers message owners without sharing phone numbers.</p>
@@ -1416,11 +1410,11 @@
             <span class="project-tag">Supabase</span>
             <span class="project-tag">QR Codes</span>
           </div>
-          <a href="https://hello-tag-seven.vercel.app/" target="_blank" class="project-link" onclick="event.stopPropagation()">Try it live</a>
+          <a href="projects/hellotag.html" class="project-link" onclick="event.stopPropagation()">Read more</a>
         </article>
 
         <!-- CraftMyResume AI -->
-        <article class="project-card" onclick="window.open('https://build-resume-ai.vercel.app/', '_blank')">
+        <article class="project-card" onclick="window.location.href='projects/craftmyresume.html'">
           <span class="project-pin pin-alpha">Alpha</span>
           <div class="project-icon resume">📝</div>
           <h3 class="project-name text-wh">CraftMyResume AI</h3>
@@ -1432,11 +1426,11 @@
             <span class="project-tag">PDF Export</span>
             <span class="project-tag">Template Cloning</span>
           </div>
-          <a href="https://build-resume-ai.vercel.app/" target="_blank" class="project-link" onclick="event.stopPropagation()">Try it live</a>
+          <a href="projects/craftmyresume.html" class="project-link" onclick="event.stopPropagation()">Read more</a>
         </article>
 
         <!-- ExecuTorch Mobile Kit -->
-        <article class="project-card" onclick="window.open('https://github.com/akzarma/executorch-mobile-kit', '_blank')">
+        <article class="project-card" onclick="window.location.href='projects/executorch-mobile-kit.html'">
           <span class="project-pin pin-alpha">Alpha</span>
           <div class="project-icon mobile">📱</div>
           <h3 class="project-name text-wh">ExecuTorch Mobile Kit</h3>
@@ -1448,7 +1442,7 @@
             <span class="project-tag">Android</span>
             <span class="project-tag">Qualcomm QNN</span>
           </div>
-          <a href="https://github.com/akzarma/executorch-mobile-kit" target="_blank" class="project-link" onclick="event.stopPropagation()">View on GitHub</a>
+          <a href="projects/executorch-mobile-kit.html" class="project-link" onclick="event.stopPropagation()">Read more</a>
         </article>
       </div>
     </div>
@@ -1507,6 +1501,33 @@
             <div class="post-meta">
               <span class="post-date">📅 Aug 2025</span>
               <a href="https://www.linkedin.com/posts/activity-7375431512470650880-rzto" target="_blank" class="post-link" onclick="event.stopPropagation()">Read more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 4 - Claude Find Conversation -->
+        <article class="post-card" onclick="window.location.href='blog/claude-find-conversation.html'">
+          <div class="post-content">
+            <span class="post-badge" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.3); color: rgba(129, 140, 248, 1);">🔍 Open Source</span>
+            <h3 class="post-title text-wh">I Built a Search Plugin for Claude Code</h3>
+            <p class="post-excerpt">Finding past Claude Code conversations was painful. So I built a plugin that searches your entire history and lets you resume any session instantly. Pure Python, no dependencies.</p>
+            <div class="post-meta">
+              <span class="post-date">📅 Mar 2026</span>
+              <a href="blog/claude-find-conversation.html" class="post-link" onclick="event.stopPropagation()">Read more</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 5 - Debugging at Scale (ngram) -->
+        <article class="post-card" onclick="window.location.href='blog/from-log-chaos-to-clarity.html'">
+          <img src="images/blog/log-chaos-banner.png" alt="From Log Chaos to Clarity" class="post-image" onerror="this.style.display='none'">
+          <div class="post-content">
+            <span class="post-badge" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3); color: rgba(251, 191, 36, 1);">📝 ngram Blog</span>
+            <h3 class="post-title text-wh">From Log Chaos to Clarity: Debugging at Scale</h3>
+            <p class="post-excerpt">How we built a debugging skill that turns a 15-minute log hunt into a 30-second slash command. One markdown file, structured insights, no more manual log scrolling.</p>
+            <div class="post-meta">
+              <span class="post-date">📅 Feb 2026</span>
+              <a href="blog/from-log-chaos-to-clarity.html" class="post-link" onclick="event.stopPropagation()">Read more</a>
             </div>
           </div>
         </article>

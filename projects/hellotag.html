@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Hello Tag | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="A privacy-first vehicle communication platform that lets strangers reach car owners through QR codes, enabling urgent alerts and anonymous messaging without exposing personal phone numbers." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hello Tag - Secure Your Vehicle, Stay Connected" />
+  <meta property="og:description" content="A privacy-first vehicle communication platform that lets strangers reach car owners through QR codes, enabling urgent alerts and anonymous messaging without exposing personal phone numbers." />
+  <meta property="og:image" content="https://akzarma.github.io/images/github-graph-og.png?v=2" />
+  <meta property="og:url" content="https://akzarma.github.io/projects/hellotag" />
+  <meta property="og:type" content="article" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '\2190';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .hero-emoji {
+      font-size: 64px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      color: #fff;
+    }
+    .hero-icon img {
+      width: 80px;
+      height: 80px;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .pin-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      color: #86efac;
+      border: 1px solid rgba(134,239,172,0.45);
+      background: rgba(34,197,94,0.12);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .pin-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #86efac;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 25px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      padding: 10px 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+    }
+    .hero-link:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.3);
+      gap: 12px;
+    }
+    .hero-link::after {
+      content: '\2192';
+      transition: transform 0.3s ease;
+    }
+    .hero-link:hover::after {
+      transform: translateX(4px);
+    }
+
+    /* Stats section */
+    .project-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 70px;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .project-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-stat-value {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+    }
+    .project-stat-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Section styles */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.9);
+    }
+    .section-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feature-list li {
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: '\2022';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* Tech stack cards */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .tech-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+    .tech-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .tech-card-name {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,0.9);
+    }
+    .tech-card-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+
+    /* Challenge cards */
+    .challenge {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    .challenge:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .challenge-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+    .challenge-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-emoji { font-size: 48px; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="../index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-icon"><img src="../images/hello-tag-icon.svg" alt="Hello Tag" /></div>
+      <h1 class="hero-title">Hello Tag</h1>
+      <p class="hero-tagline">Secure Your Vehicle, Stay Connected</p>
+      <span class="pin-live">Live</span>
+      <br />
+      <a href="https://hello-tag-seven.vercel.app/" class="hero-link" target="_blank">Try it live</a>
+    </header>
+
+    <!-- Stats -->
+    <div class="project-stats">
+      <div class="project-stat">
+        <span class="project-stat-value">100+</span>
+        <span class="project-stat-label">Active Users</span>
+      </div>
+      <div class="project-stat">
+        <span class="project-stat-value">Live</span>
+        <span class="project-stat-label">Status</span>
+      </div>
+      <div class="project-stat">
+        <span class="project-stat-value">0</span>
+        <span class="project-stat-label">Phone Numbers Shared</span>
+      </div>
+    </div>
+
+    <!-- Overview -->
+    <section class="section">
+      <h2 class="section-title">Overview</h2>
+      <p class="section-text">Someone's blocking your car, their windows are up, and you have no way to reach them. The usual options (leaving your phone number on the dashboard, asking security to make an announcement) either compromise your privacy or just don't work.
+
+Hello Tag gives every vehicle owner a unique QR code. A stranger scans it, types a message or sends an urgent alert, and the owner gets a push notification instantly. No app download needed for the sender, no account creation, no phone numbers exchanged. A real-time chat opens so both sides can sort things out.
+
+We have 100+ users right now and expect to expand in the coming weeks. Owners manage their vehicles and conversations through a React Native app built with Expo. They can register multiple vehicles, set notification preferences per vehicle, and see their full message history. The system handles everything from "hey, your trunk is open" to "your car is being towed" with the right level of urgency.</p>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section">
+      <h2 class="section-title">Key Features</h2>
+      <ul class="feature-list">
+        <li>Unique QR code per vehicle, optimized for windshield display and outdoor scanning</li>
+        <li>Fully anonymous messaging. Neither party reveals phone numbers, emails, or personal info</li>
+        <li>Real-time two-way chat powered by Supabase Realtime, starting the moment someone scans the code</li>
+        <li>Instant push notifications when a message or alert comes in, even if the app is backgrounded</li>
+        <li>Cross-platform mobile app (React Native + Expo) for iOS and Android</li>
+        <li>Privacy-first design. The QR code maps to an opaque vehicle ID, not to a person</li>
+        <li>Urgent alert system with elevated notification priority for things like towing or accidents</li>
+        <li>Multi-vehicle support. Register cars, bikes, or anything else under one account, each with its own QR code</li>
+        <li>Full message history with searchable threads organized by vehicle</li>
+      </ul>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section">
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-card-name">React Native + Expo</div>
+          <p class="tech-card-desc">Cross-platform mobile framework for iOS and Android from a single TypeScript codebase. Expo handles builds, OTA updates, and push notifications</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">Supabase</div>
+          <p class="tech-card-desc">Backend platform handling the real-time database, auth, and push notification relay. Realtime subscriptions power the chat, and Row Level Security enforces privacy at the data layer</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">TypeScript</div>
+          <p class="tech-card-desc">Type safety across the full stack, from the mobile app to database queries. Catches schema mismatches and API issues at compile time</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-name">QR Code Generation</div>
+          <p class="tech-card-desc">Client-side library generating high-error-correction QR codes that stay scannable when printed small, partially covered, or photographed through glass</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="section">
+      <h2 class="section-title">Architecture</h2>
+      <p class="section-text">The system is a scan-to-chat pipeline built for minimal friction. Someone scans a vehicle's QR code, their phone opens a lightweight web page (no app install), and it resolves the vehicle identifier against Supabase. The web client opens a Supabase Realtime subscription on that vehicle's conversation channel, and the sender types their message through a simple mobile-optimized form.
+
+On submission, the message hits the Supabase database, which kicks off two things in parallel: the Realtime subscription pushes it to any active listeners (including the owner if the app is open), and a Supabase Edge Function fires a push notification via Expo's push service to the owner's device. The owner taps the notification, lands in the conversation thread, and can respond right away.
+
+Privacy is enforced at every layer. The QR code contains only an opaque vehicle identifier, no personal data. Row Level Security in Supabase means participants can only read their own threads. The stranger's session is ephemeral and cookie-based (no account needed), and the vehicle owner's identity stays behind Supabase Auth with no public-facing profile.</p>
+    </section>
+
+    <!-- Challenges & Solutions -->
+    <section class="section">
+      <h2 class="section-title">Challenges &amp; Solutions</h2>
+
+      <div class="challenge">
+        <h3 class="challenge-title">Keeping Both Parties Anonymous</h3>
+        <p class="challenge-text">The whole point is that nobody shares personal info, but both sides still need a real conversation. QR codes encode opaque identifiers, Row Level Security restricts access to participants only, and the stranger's web session uses ephemeral tokens instead of accounts. The tricky part was balancing anonymity with abuse prevention. We needed enough session identity to rate-limit spam and flag bad messages, but not enough to de-anonymize senders. We landed on lightweight fingerprinting plus server-side rate limiting per vehicle identifier.</p>
+      </div>
+
+      <div class="challenge">
+        <h3 class="challenge-title">Real-Time Message Delivery</h3>
+        <p class="challenge-text">If someone's car is being towed, the message needs to arrive in seconds, not minutes. Supabase Realtime handles in-app delivery well, but push notifications are less predictable. Expo's push service batches notifications, iOS and Android handle background processing differently, and the OS never truly guarantees delivery. We went with a multi-layered approach: Supabase Realtime for instant in-app updates, Expo push notifications with high-priority flags for urgent alerts, and a polling fallback that checks for unread messages when the app is foregrounded. Urgent alerts get a distinct notification channel on Android with do-not-disturb override permissions.</p>
+      </div>
+
+      <div class="challenge">
+        <h3 class="challenge-title">QR Code Scanning Across Devices</h3>
+        <p class="challenge-text">QR codes on vehicles deal with tough conditions: scanning through glass, direct sunlight, bad angles, and cameras of varying quality. Early testing showed that codes printed too small or with low error correction failed on older Android devices, and some color combos were unreadable in bright light. We went with high error-correction codes, a minimum physical size, strong contrast ratios, and a quiet zone that accounts for dashboard reflections. The landing URL is kept short to reduce code density, and owners get a printable template with placement guidance (windshield interior, lower driver-side corner) optimized for the typical scanning angle.</p>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <p class="footer-text">
+        Interested in collaborating? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Light mode detection
+    function afterPageLoad() {
+      today = new Date();
+      const curHr = today.getHours();
+
+      const savedTheme = localStorage.getItem('theme');
+      const shouldBeLight = savedTheme !== 'dark';
+      if (shouldBeLight) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+
+        document.querySelectorAll('.hero-title').forEach(el => {
+          el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+          el.style.webkitBackgroundClip = 'text';
+          el.style.webkitTextFillColor = 'transparent';
+        });
+        document.querySelectorAll('.section-title, .tech-card-name, .challenge-title').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.85)';
+        });
+        document.querySelectorAll('.section-text, .feature-list li, .tech-card-desc, .challenge-text').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.55)';
+        });
+        document.querySelectorAll('.tech-card, .challenge').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.03)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelector('.hero-tagline').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.hero-link').style.color = 'rgba(0,0,0,0.6)';
+        document.querySelector('.hero-link').style.borderColor = 'rgba(0,0,0,0.12)';
+        document.querySelectorAll('.hero-icon').forEach(el => { el.style.color = '#000'; });
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.feature-list li::before').forEach(() => {});
+        document.querySelectorAll('.particle').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.2)';
+        });
+        document.querySelectorAll('.project-stat-value').forEach(el => {
+          el.style.color = '#000';
+        });
+        document.querySelectorAll('.project-stat-label').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.4)';
+        });
+        document.querySelectorAll('.project-stats').forEach(el => {
+          el.style.borderColor = 'rgba(0,0,0,0.06)';
+        });
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_3bJxDMLYMR7WSiglfbhLx4QwOCPXfXD1oJTPrM9DjHb', {api_host: 'https://us.i.posthog.com', person_profiles: 'identified_only'});
+  </script>
+</body>
+
+</html>

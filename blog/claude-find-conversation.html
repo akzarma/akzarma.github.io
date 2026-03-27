@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>find-conversation: Search Your Claude Code History | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="find-conversation: Search Your Claude Code History" />
+  <meta property="og:description" content="A Claude Code plugin that lets you search through your entire conversation history and quickly resume past sessions." />
+  <meta property="og:image" content="https://akzarma.github.io/images/github-graph-og.png?v=2" />
+  <meta property="og:url" content="https://akzarma.github.io/blog/claude-find-conversation" />
+  <meta property="og:type" content="article" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing startSessionRecording stopSessionRecording sessionRecordingStarted".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_3bJxDMLYMR7WSiglfbhLx4QwOCPXfXD1oJTPrM9DjHb', { api_host: 'https://us.i.posthog.com', capture_pageview: true });
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '\2190';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(139, 92, 246, 0.15);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 30px;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .hero-date {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(16, 185, 129, 0.12);
+    }
+
+    /* Section styles */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+    .section-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-item {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      position: relative;
+      padding-left: 20px;
+    }
+    .feature-item::before {
+      content: '\2192';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.25);
+    }
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Code blocks */
+    .code-block {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+      white-space: pre;
+    }
+    .code-block-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    /* Inline code */
+    code.inline {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* How it works cards */
+    .step-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 25px 30px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    .step-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .step-number {
+      font-size: 0.7rem;
+      color: rgba(139, 92, 246, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .step-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+
+    /* CTA section */
+    .cta-section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+    }
+    .cta-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .cta-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 12px 32px;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      border-radius: 999px;
+      color: #c4b5fd;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      background: rgba(139, 92, 246, 0.35);
+      border-color: rgba(139, 92, 246, 0.6);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-icon { width: 60px; height: 60px; font-size: 30px; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+      .section-title { font-size: 1.5rem; }
+      .cta-section { padding: 30px 20px; }
+      .step-card { padding: 20px; }
+      .code-block { padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="../index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-icon">🔍</div>
+      <h1 class="hero-title">find-conversation</h1>
+      <p class="hero-tagline">A Claude Code plugin for searching your entire conversation history</p>
+      <p class="hero-date">March 2026</p>
+      <span class="status-badge">Open Source</span>
+    </header>
+
+    <!-- Intro -->
+    <section class="section">
+      <h2 class="section-title">Why I Built This</h2>
+      <p class="section-text">I use Claude Code a lot. Across multiple projects, multiple repos, hundreds of conversations. And every now and then I need to find that one session where I debugged a deployment issue, or where I discussed a specific design decision, or where I wrote a tricky migration script.</p>
+      <p class="section-text">Claude Code stores all conversations as JSONL files under <code class="inline">~/.claude/projects/</code>. But there's no built-in way to search through them. So I built one.</p>
+      <p class="section-text"><code class="inline">find-conversation</code> is a Claude Code plugin. You type <code class="inline">/find-conversation deployment vercel</code> and it searches every conversation you've ever had, ranks the results, and gives you resume commands to jump right back in.</p>
+    </section>
+
+    <!-- The Problem -->
+    <section class="section">
+      <h2 class="section-title">The Problem</h2>
+      <p class="section-text">Claude Code saves conversations in JSONL files organized by project path. The folder names are URL-encoded versions of your filesystem paths. Once you've accumulated a few hundred sessions across a dozen projects, finding anything specific is basically impossible without manually grepping through encoded directory names and raw JSON.</p>
+      <p class="section-text">You know the conversation exists somewhere. You remember roughly what you discussed. But good luck finding it.</p>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-text">The plugin is pure Python (3.8+, zero external dependencies) and optimized to be fast even with large conversation histories.</p>
+
+      <div class="step-card">
+        <div class="step-number">Step 1</div>
+        <div class="step-title">Scan for conversation files</div>
+        <p class="step-text">Walks <code class="inline">~/.claude/projects/</code> and finds all JSONL conversation files. Decodes the URL-encoded folder names to reconstruct the original project paths so results are human-readable.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 2</div>
+        <div class="step-title">Binary pre-filtering</div>
+        <p class="step-text">Before parsing any JSON, it scans files in 1MB binary chunks looking for your search terms as raw bytes. Files that don't contain your keywords at all get skipped entirely. This alone saves a ton of time.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 3</div>
+        <div class="step-title">Single-pass parsing</div>
+        <p class="step-text">Files that pass the binary filter get parsed line by line in a single pass. No loading the entire file into memory, no building full ASTs. Just stream through, extract the text content, count matches.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 4</div>
+        <div class="step-title">Smart noise filtering</div>
+        <p class="step-text">System reminders, notification messages, and other noise get filtered out. Only real user and assistant messages are searched, so you get results that actually matter.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">Step 5</div>
+        <div class="step-title">Ranked results</div>
+        <p class="step-text">Results are ranked by match frequency and limited to the top 10. Each result shows the session slug, match count, project path, timestamps, and a <code class="inline">claude --resume</code> command you can copy and run.</p>
+      </div>
+    </section>
+
+    <!-- Installation & Usage -->
+    <section class="section">
+      <h2 class="section-title">Installation</h2>
+      <p class="section-text">Install it from the Claude Code plugin marketplace:</p>
+      <div class="code-block">
+        <code>/plugin marketplace add akzarma/claude-find-conversation
+/plugin install find-conversation@akzarma-tools</code>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Usage</h2>
+      <p class="section-text">Just type <code class="inline">/find-conversation</code> followed by your search terms:</p>
+      <div class="code-block">
+        <code>/find-conversation deployment vercel
+/find-conversation database migration
+/find-conversation React optimization</code>
+      </div>
+      <p class="section-text">It returns formatted results with everything you need to jump back into the session. The resume command is right there, just copy and paste.</p>
+    </section>
+
+    <!-- Key Features -->
+    <section class="section">
+      <h2 class="section-title">Key Features</h2>
+      <ul class="feature-list">
+        <li class="feature-item">Efficient binary pre-filtering before full JSON parsing</li>
+        <li class="feature-item">Smart path decoding that reconstructs filesystem paths from Claude's encoded folder names</li>
+        <li class="feature-item">Filters out system noise to surface only real conversations</li>
+        <li class="feature-item">Ranked results with match counts and resume commands</li>
+        <li class="feature-item">Pure Python 3.8+, zero external dependencies</li>
+        <li class="feature-item">Works on macOS and Linux</li>
+        <li class="feature-item">MIT licensed</li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="section">
+      <div class="cta-section">
+        <h2 class="cta-title">Try It</h2>
+        <p class="cta-text">The plugin is open source. Install it, search your history, find that conversation you forgot about.</p>
+        <a href="https://github.com/akzarma/claude-find-conversation" target="_blank" rel="noopener noreferrer" class="cta-button">View on GitHub</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p class="footer-text">
+        Questions or feedback? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Light mode detection
+    function afterPageLoad() {
+      today = new Date()
+      const curHr = today.getHours()
+
+      const savedTheme = localStorage.getItem('theme');
+      const shouldBeLight = savedTheme !== 'dark';
+      if (shouldBeLight) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+        // Update text colors for light mode
+        document.querySelectorAll('.hero-title, .section-title, .step-title, .cta-title').forEach(el => {
+          if (el.classList.contains('hero-title')) {
+            el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+            el.style.webkitBackgroundClip = 'text';
+            el.style.webkitTextFillColor = 'transparent';
+          } else {
+            el.style.color = '#000';
+          }
+        });
+        document.querySelectorAll('.section-text, .hero-tagline, .feature-item, .step-text, .cta-text').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+        });
+        document.querySelectorAll('.step-card, .cta-section').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.03)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelectorAll('.code-block').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.05)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelectorAll('.code-block code').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.75)';
+        });
+        document.querySelectorAll('code.inline').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.06)';
+          el.style.color = 'rgba(0,0,0,0.7)';
+        });
+        document.querySelector('.hero-date').style.color = 'rgba(0,0,0,0.35)';
+        document.querySelector('.status-badge').style.background = 'rgba(16, 185, 129, 0.12)';
+        document.querySelector('.status-badge').style.color = '#047857';
+        document.querySelector('.status-badge').style.borderColor = 'rgba(4, 120, 87, 0.4)';
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.page-footer').style.borderColor = 'rgba(0,0,0,0.06)';
+        document.querySelectorAll('.feature-item').forEach(el => {
+          el.style.borderColor = 'rgba(0,0,0,0.04)';
+        });
+        document.querySelectorAll('.step-number').forEach(el => {
+          el.style.color = 'rgba(109, 40, 217, 0.8)';
+        });
+        document.querySelector('.cta-button').style.background = 'rgba(109, 40, 217, 0.12)';
+        document.querySelector('.cta-button').style.borderColor = 'rgba(109, 40, 217, 0.3)';
+        document.querySelector('.cta-button').style.color = '#6d28d9';
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+</body>
+
+</html>

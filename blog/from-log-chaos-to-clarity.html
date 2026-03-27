@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>From Log Chaos to Clarity: Debugging at Scale | Akshay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="From Log Chaos to Clarity: Debugging at Scale" />
+  <meta property="og:description" content="How ngram built a debugging skill for AI coding assistants that converts a simple command into structured insights within 30 seconds." />
+  <meta property="og:image" content="https://akzarma.github.io/images/blog/log-chaos-banner.png" />
+  <meta property="og:url" content="https://akzarma.github.io/blog/from-log-chaos-to-clarity.html" />
+  <meta property="og:type" content="article" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- PostHog Analytics -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing startSessionRecording stopSessionRecording sessionRecordingStarted".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_3bJxDMLYMR7WSiglfbhLx4QwOCPXfXD1oJTPrM9DjHb', { api_host: 'https://us.i.posthog.com', capture_pageview: true });
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 25s; width: 4px; height: 4px; }
+    .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 20s; }
+    .particle:nth-child(3) { left: 35%; top: 50%; animation-delay: 4s; animation-duration: 28s; width: 5px; height: 5px; }
+    .particle:nth-child(4) { left: 50%; top: 10%; animation-delay: 1s; animation-duration: 22s; }
+    .particle:nth-child(5) { left: 65%; top: 70%; animation-delay: 3s; animation-duration: 18s; width: 4px; height: 4px; }
+    .particle:nth-child(6) { left: 80%; top: 30%; animation-delay: 5s; animation-duration: 24s; }
+    .particle:nth-child(7) { left: 90%; top: 60%; animation-delay: 2.5s; animation-duration: 21s; width: 5px; height: 5px; }
+    .particle:nth-child(8) { left: 5%; top: 45%; animation-delay: 1.5s; animation-duration: 26s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+      25% { transform: translateY(-30px) translateX(10px); opacity: 0.6; }
+      50% { transform: translateY(-15px) translateX(-10px); opacity: 0.4; }
+      75% { transform: translateY(-40px) translateX(5px); opacity: 0.5; }
+    }
+
+    /* Corner accents */
+    .corner-accent {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+    .corner-accent.top-left { top: 20px; left: 20px; }
+    .corner-accent.bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+    /* Navigation */
+    .nav-back {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover {
+      color: #fff;
+      transform: translateX(-3px);
+    }
+    .nav-back::before {
+      content: '\2190';
+      font-size: 18px;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 20px 60px;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(59, 130, 246, 0.15);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 30px;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 300;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .hero-date {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-meta {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .hero-meta a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+    .hero-meta a:hover {
+      color: #fff;
+      border-bottom-color: rgba(255,255,255,0.5);
+    }
+    .hero-banner {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .author-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .author-info {
+      text-align: left;
+    }
+    .author-name {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    .author-role {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+      color: #60a5fa;
+      border-color: rgba(96, 165, 250, 0.45);
+      background: rgba(59, 130, 246, 0.12);
+    }
+
+    /* Section styles */
+    .section {
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+    .section-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* Sub-headings */
+    .sub-title {
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      margin-top: 35px;
+      color: #fff;
+    }
+
+    /* Feature list */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-item {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      position: relative;
+      padding-left: 20px;
+    }
+    .feature-item::before {
+      content: '\2192';
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.25);
+    }
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Code blocks */
+    .code-block {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    /* Inline code */
+    code.inline {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Separator */
+    .section-separator {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 60px 0;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align: center;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-email {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-email:hover {
+      color: #fff;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.2rem; }
+      .hero-icon { width: 60px; height: 60px; font-size: 30px; }
+      .container { padding: 80px 15px 40px; }
+      .nav-back { top: 20px; left: 20px; }
+      .section-title { font-size: 1.5rem; }
+      .code-block { padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Corner accents -->
+  <svg class="corner-accent top-left" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+  <svg class="corner-accent bottom-right" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M5 55 L5 5 L55 5" stroke="rgba(255,255,255,0.3)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="5" cy="5" r="2" fill="rgba(255,255,255,0.3)"/>
+  </svg>
+
+  <!-- Navigation -->
+  <a href="../index.html" class="nav-back">Back to home</a>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Hero -->
+    <header class="hero">
+      <img src="../images/blog/log-chaos-banner.png" alt="From Log Chaos to Clarity: Debugging at Scale" class="hero-banner" />
+      <h1 class="hero-title">From Log Chaos to Clarity</h1>
+      <p class="hero-tagline">Debugging at Scale</p>
+      <p class="hero-date">Feb 5, 2026 &middot; 8 min read</p>
+      <div class="author-row">
+        <img src="../images/blog/akshay-author.jpg" alt="Akshay Kumar" class="author-avatar" />
+        <div class="author-info">
+          <div class="author-name">Akshay Kumar</div>
+          <div class="author-role">Founding Engineer at ngram</div>
+        </div>
+      </div>
+      <span class="status-badge">Published on ngram</span>
+      <p class="hero-meta" style="margin-top: 16px;">
+        <a href="https://www.ngram.com/blog/company-news/from-log-chaos-to-clarity-debugging-at-scale" target="_blank" rel="noopener noreferrer">Read the original post on ngram.com</a>
+      </p>
+    </header>
+
+    <!-- The Problem: Logs Are a Haystack -->
+    <section class="section">
+      <h2 class="section-title">The Problem: Logs Are a Haystack</h2>
+      <p class="section-text">Modern systems touch multiple services with a single user request, generating logs across different systems. When users report issues, debugging typically requires finding request IDs, opening logging dashboards, filtering through hundreds of entries, manually piecing together what happened, and spotting errors buried in output. This process takes 15 to 30 minutes per issue.</p>
+    </section>
+
+    <!-- The Solution -->
+    <section class="section">
+      <h2 class="section-title">The Solution: A Slash Command That Does the Work</h2>
+      <p class="section-text">ngram built a debugging skill for AI coding assistants that converts a simple command into structured insights within 30 seconds:</p>
+      <div class="code-block">
+        <code>/debug-conversation 8b7d7d8d-81f0-43b2-8d19-358c298cbca4</code>
+      </div>
+      <p class="section-text">The output provides request parameters, execution timelines with durations and status, step-by-step component breakdowns, and identification of what worked versus what failed, without requiring manual log hunting.</p>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+      <h2 class="section-title">How It Works</h2>
+
+      <h3 class="sub-title">1. Fetch Logs from Your Log Provider</h3>
+      <p class="section-text">The skill uses Vercel's log API to pull entries matching request identifiers with configurable time ranges. This approach works with any API-enabled log provider like Datadog, CloudWatch, or Papertrail.</p>
+
+      <h3 class="sub-title">2. Parse and Extract Structure</h3>
+      <p class="section-text">Raw logs contain JSON messages with timestamps, operation names, parameters, and results. The skill extracts request metadata, builds chronological execution timelines, calculates operation durations, identifies errors and warnings, and parses structured output data.</p>
+
+      <h3 class="sub-title">3. Generate a Dynamic Summary</h3>
+      <p class="section-text">Output format adapts to log contents. Rather than displaying "processData: 75000ms," it provides context: "Data processing took 75 seconds and handled 3 input sources."</p>
+    </section>
+
+    <!-- The Skill File -->
+    <section class="section">
+      <h2 class="section-title">The Skill File</h2>
+      <p class="section-text">The debugging capability exists in a single markdown file: <code class="inline">.claude/commands/debug-conversation.md</code>. This file defines input arguments, setup instructions, step-by-step workflows, output formats, and error handling procedures.</p>
+    </section>
+
+    <!-- Why This Pattern Matters -->
+    <section class="section">
+      <h2 class="section-title">Why This Pattern Matters</h2>
+      <p class="section-text">Every engineering team has workflows involving context retrieval, domain knowledge application, and structured output generation. These processes typically live in people's heads. Encoding them as AI skills provides consistency, speed, onboarding advantages, and continuous evolution.</p>
+    </section>
+
+    <!-- Building Your Own Debugging Skills -->
+    <section class="section">
+      <h2 class="section-title">Building Your Own Debugging Skills</h2>
+      <p class="section-text">Complex backend systems can benefit from similar skills. Key ingredients include structured logging with JSON, queryable log storage with API access, and markdown-based skill files instructing AI assistants on fetch, parse, and presentation steps.</p>
+    </section>
+
+    <!-- Real Example -->
+    <section class="section">
+      <h2 class="section-title">Real Example: Debugging a Broken Chat Session</h2>
+      <p class="section-text">ngram's agentic chat lets users interact with an AI assistant orchestrating web research, storyboard generation, image creation, and voice synthesis. Previously, debugging broken sessions meant manually searching logs by conversation ID and scrolling through hundreds of entries.</p>
+      <p class="section-text">Now:</p>
+      <div class="code-block">
+        <code>/debug-conversation 8b7d7d8d-81f0-43b2-8d19-358c298cbca4</code>
+      </div>
+      <p class="section-text">The skill fetches logs, auto-detects time ranges, and parses tool invocations, revealing within seconds that image generation timed out after 45 seconds, cascading to block downstream processes.</p>
+      <p class="section-text">The skill also supports input mode variations depending on log location:</p>
+      <div class="code-block">
+        <code>/debug-conversation &lt;id&gt; --since 7d
+/debug-conversation --file logs/session-dump.json</code>
+      </div>
+    </section>
+
+    <!-- What's Next -->
+    <section class="section">
+      <h2 class="section-title">What's Next</h2>
+      <p class="section-text">ngram continues building skills making engineering teams faster by encoding expertise into shareable files that improve continuously. For teams running complex production systems, this approach helps document workflows while providing immediate debugging support.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p class="footer-text">
+        Questions or feedback? <a href="mailto:akzarma@gmail.com" class="footer-email">akzarma@gmail.com</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Light mode detection
+    function afterPageLoad() {
+      today = new Date()
+      const curHr = today.getHours()
+
+      const savedTheme = localStorage.getItem('theme');
+      const shouldBeLight = savedTheme !== 'dark';
+      if (shouldBeLight) {
+        document.getElementsByTagName('html')[0].style.background = 'white';
+        document.getElementsByTagName('body')[0].style.background = 'white';
+        document.body.classList.add('light-mode');
+        // Update text colors for light mode
+        document.querySelectorAll('.hero-title, .section-title, .sub-title').forEach(el => {
+          if (el.classList.contains('hero-title')) {
+            el.style.background = 'linear-gradient(135deg, #000 0%, #333 100%)';
+            el.style.webkitBackgroundClip = 'text';
+            el.style.webkitTextFillColor = 'transparent';
+          } else {
+            el.style.color = '#000';
+          }
+        });
+        document.querySelectorAll('.section-text, .hero-tagline, .feature-item').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+        });
+        document.querySelectorAll('.code-block').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.05)';
+          el.style.borderColor = 'rgba(0,0,0,0.08)';
+        });
+        document.querySelectorAll('.code-block code').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.75)';
+        });
+        document.querySelectorAll('code.inline').forEach(el => {
+          el.style.background = 'rgba(0,0,0,0.06)';
+          el.style.color = 'rgba(0,0,0,0.7)';
+        });
+        document.querySelector('.hero-date').style.color = 'rgba(0,0,0,0.35)';
+        document.querySelectorAll('.hero-meta').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.4)';
+        });
+        document.querySelectorAll('.author-name').forEach(el => { el.style.color = 'rgba(0,0,0,0.7)'; });
+        document.querySelectorAll('.author-role').forEach(el => { el.style.color = 'rgba(0,0,0,0.4)'; });
+        document.querySelectorAll('.hero-banner').forEach(el => { el.style.borderColor = 'rgba(0,0,0,0.08)'; });
+        document.querySelectorAll('.hero-meta a').forEach(el => {
+          el.style.color = 'rgba(0,0,0,0.6)';
+          el.style.borderBottomColor = 'rgba(0,0,0,0.2)';
+        });
+        document.querySelector('.status-badge').style.background = 'rgba(59, 130, 246, 0.12)';
+        document.querySelector('.status-badge').style.color = '#1d4ed8';
+        document.querySelector('.status-badge').style.borderColor = 'rgba(29, 78, 216, 0.4)';
+        document.querySelector('.nav-back').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.footer-text').style.color = 'rgba(0,0,0,0.5)';
+        document.querySelector('.footer-email').style.color = 'rgba(0,0,0,0.7)';
+        document.querySelector('.page-footer').style.borderColor = 'rgba(0,0,0,0.06)';
+        document.querySelectorAll('.feature-item').forEach(el => {
+          el.style.borderColor = 'rgba(0,0,0,0.04)';
+        });
+        document.querySelectorAll('.section-separator').forEach(el => {
+          el.style.borderColor = 'rgba(0,0,0,0.06)';
+        });
+        document.querySelectorAll('.corner-accent path').forEach(p => p.setAttribute('stroke', 'rgba(0,0,0,0.15)'));
+        document.querySelectorAll('.corner-accent circle').forEach(c => c.setAttribute('fill', 'rgba(0,0,0,0.15)'));
+      }
+    }
+
+    addEventListener("load", afterPageLoad, false);
+  </script>
+</body>
+
+</html>
